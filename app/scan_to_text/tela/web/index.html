@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="pt-BR" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title data-i18n="titulo"></title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="estilo.css">
+<link rel="stylesheet" href="seletor.css">
+<link rel="stylesheet" href="efeitos.css">
+<link rel="stylesheet" href="identidade-local-suite.css">
+<link rel="stylesheet" href="status-espera.css">
+<script src="seletor.js" defer></script>
+<script src="efeitos.js" defer></script>
+<script src="status-espera.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body class="carregando" data-vista="inicio">
+
+<header class="topo">
+  <div class="marca">
+    <span class="marca-nome" dir="ltr"><span data-i18n="marca.nome"></span><span class="g" data-i18n="marca.sufixo"></span></span>
+  </div>
+  <div class="topo-dir">
+    <div class="topo-idioma" role="group" data-radai-idiomas data-i18n-attr="aria-label:topo.idioma"></div>
+    <button type="button" class="icone" id="bt-engrenagem" data-i18n-attr="aria-label:topo.configuracoes;title:topo.configuracoes">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M22.10 10.56 L22.10 13.44 L19.67 13.90 L18.77 16.07 L20.16 18.12 L18.12 20.16 L16.07 18.77 L13.90 19.67 L13.44 22.10 L10.56 22.10 L10.10 19.67 L7.93 18.77 L5.88 20.16 L3.84 18.12 L5.23 16.07 L4.33 13.90 L1.90 13.44 L1.90 10.56 L4.33 10.10 L5.23 7.93 L3.84 5.88 L5.88 3.84 L7.93 5.23 L10.10 4.33 L10.56 1.90 L13.44 1.90 L13.90 4.33 L16.07 5.23 L18.12 3.84 L20.16 5.88 L18.77 7.93 L19.67 10.10Z"/><circle cx="12" cy="12" r="3.3"/></svg>
+    </button>
+    <button type="button" class="volta" id="bt-voltar" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.5 6 8.5 12l6 6"/></svg>
+      <span data-i18n="topo.voltar"></span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="vista-inicio" id="vista-inicio" aria-labelledby="inicio-titulo">
+    <h1 class="so-leitor" id="inicio-titulo" data-i18n="inicio.titulo"></h1>
+    <div class="palco">
+      <button type="button" class="start" id="start" data-estado="parado" aria-describedby="estado-texto" aria-disabled="true">
+        <span class="start-colar" aria-hidden="true"></span>
+        <span class="start-poco" aria-hidden="true"></span>
+        <span class="start-lado" aria-hidden="true"></span>
+        <span class="start-tampa"><span class="start-rotulo" id="start-rotulo" lang="en" data-i18n="botao.start"></span></span>
+      </button>
+      <div class="estado">
+        <div class="estado-linha" role="status" aria-live="polite">
+          <span class="t-matrix" id="matrix" aria-hidden="true" hidden></span>
+          <span class="calmo" id="calmo" aria-hidden="true" hidden></span>
+          <span class="estado-texto" id="estado-texto"></span>
+        </div>
+        <p class="resumo" id="resumo" hidden></p>
+        <ul class="avisos" id="avisos" role="alert"></ul>
+        <button type="button" class="bt-texto" id="ir-config" data-i18n="inicio.configurar" hidden></button>
+        <p class="manter" id="manter" data-i18n="inicio.manter_aberta" hidden></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="vista-config" id="vista-config" aria-labelledby="config-titulo" hidden>
+    <div class="coluna">
+      <h1 id="config-titulo" tabindex="-1" data-i18n="config.titulo"></h1>
+
+      <section class="secao" aria-labelledby="s-origens">
+        <h2 id="s-origens" data-i18n="config.origens.titulo"></h2>
+        <p class="nota" data-i18n="config.origens.nota"></p>
+        <ul class="pastas" id="lista-origens"></ul>
+        <div class="acoes">
+          <button type="button" class="bt" data-adicionar="origens" data-i18n="config.origens.adicionar"></button>
+          <button type="button" class="bt-texto" data-colar="origens" data-i18n="config.colar"></button>
+        </div>
+        <div class="painel-colar" data-painel="origens" hidden></div>
+      </section>
+
+      <section class="secao" aria-labelledby="s-destinos">
+        <h2 id="s-destinos" data-i18n="config.destinos.titulo"></h2>
+        <p class="nota" data-i18n="config.destinos.nota"></p>
+        <p class="nota nota-nuvem" data-i18n="config.destinos.nuvem"></p>
+        <ul class="pastas" id="lista-destinos"></ul>
+        <div class="acoes">
+          <button type="button" class="bt" data-adicionar="destinos" data-i18n="config.destinos.adicionar"></button>
+          <button type="button" class="bt-texto" data-colar="destinos" data-i18n="config.colar"></button>
+        </div>
+        <div class="painel-colar" data-painel="destinos" hidden></div>
+      </section>
+
+      <section class="secao" aria-labelledby="s-idiomas">
+        <h2 id="s-idiomas" data-i18n="config.idiomas.titulo"></h2>
+        <h3 class="rotulo" id="rot-interface" data-i18n="config.idiomas.interface"></h3>
+        <div class="grade-idiomas" data-radai-idiomas="grade" aria-labelledby="rot-interface"></div>
+        <p class="nota nota-aviso" id="sem-traducao" data-i18n="config.idiomas.sem_traducao" hidden></p>
+        <p class="nota idioma-unico" id="idioma-unico" hidden></p>
+        <div class="campo" id="campo-idioma-doc">
+          <label class="rotulo" for="idioma-doc" data-i18n="config.idiomas.principal"></label>
+          <select id="idioma-doc" aria-describedby="idioma-doc-nota"></select>
+          <p class="nota" id="idioma-doc-nota" data-i18n="config.idiomas.principal_nota"></p>
+        </div>
+        <fieldset class="campo" id="campo-extras">
+          <legend class="rotulo" data-i18n="config.idiomas.extras"></legend>
+          <p class="nota" id="extras-nota" data-i18n="config.idiomas.extras_nota"></p>
+          <p class="nota" id="extras-vazio" data-i18n="config.idiomas.extras_vazio" hidden></p>
+          <div class="grade-marcar" id="idiomas-extras"></div>
+        </fieldset>
+      </section>
+
+      <section class="secao" aria-labelledby="s-leitura">
+        <h2 id="s-leitura" data-i18n="config.leitura.titulo"></h2>
+        <div class="campo campo-numero">
+          <label class="rotulo" for="n-ping" data-i18n="config.leitura.ping"></label>
+          <div class="numero"><input type="number" id="n-ping" data-campo="ping_min" data-minimo="0.1" data-decimal min="0.1" step="any" inputmode="decimal" aria-describedby="n-ping-nota n-ping-erro"><span data-i18n="config.leitura.minutos"></span></div>
+          <p class="nota" id="n-ping-nota" data-i18n="config.leitura.ping_nota"></p>
+          <p class="erro-campo" id="n-ping-erro" hidden></p>
+        </div>
+        <div class="campo campo-numero">
+          <label class="rotulo" for="n-dias" data-i18n="config.leitura.days_back"></label>
+          <div class="numero"><input type="number" id="n-dias" data-campo="days_back" data-minimo="0" min="0" step="1" inputmode="numeric" aria-describedby="n-dias-nota n-dias-erro"><span data-i18n="config.leitura.dias"></span></div>
+          <p class="nota" id="n-dias-nota" data-i18n="config.leitura.days_back_nota"></p>
+          <p class="erro-campo" id="n-dias-erro" hidden></p>
+        </div>
+        <details class="avancado">
+          <summary data-i18n="config.leitura.avancado"></summary>
+          <div class="campo campo-numero">
+            <label class="rotulo" for="n-estab" data-i18n="config.leitura.estabilidade"></label>
+            <div class="numero"><input type="number" id="n-estab" data-campo="estabilidade_s" data-minimo="1" min="1" step="1" inputmode="numeric" aria-describedby="n-estab-nota n-estab-erro"><span data-i18n="config.leitura.segundos"></span></div>
+            <p class="nota" id="n-estab-nota" data-i18n="config.leitura.estabilidade_nota"></p>
+            <p class="erro-campo" id="n-estab-erro" hidden></p>
+          </div>
+          <div class="campo campo-numero">
+            <label class="rotulo" for="n-ocioso" data-i18n="config.leitura.ocioso"></label>
+            <div class="numero"><input type="number" id="n-ocioso" data-campo="ocioso_min" data-minimo="0.1" data-decimal min="0.1" step="any" inputmode="decimal" aria-describedby="n-ocioso-nota n-ocioso-erro"><span data-i18n="config.leitura.minutos"></span></div>
+            <p class="nota" id="n-ocioso-nota" data-i18n="config.leitura.ocioso_nota"></p>
+            <p class="erro-campo" id="n-ocioso-erro" hidden></p>
+          </div>
+        </details>
+      </section>
+
+      <section class="secao" aria-labelledby="s-log">
+        <h2 id="s-log" data-i18n="config.log.titulo"></h2>
+        <p class="nota" data-i18n="config.log.nota"></p>
+        <ol class="log" id="log"></ol>
+        <div class="acoes">
+          <button type="button" class="bt" id="bt-salvar-log" data-i18n="config.log.salvar"></button>
+          <p class="retorno" id="log-retorno" role="status"></p>
+        </div>
+        <div class="painel-colar" data-painel="log" hidden></div>
+      </section>
+
+      <section class="secao" aria-labelledby="s-sobre">
+        <h2 id="s-sobre" data-i18n="config.sobre.titulo"></h2>
+        <p class="versao" id="versao" hidden></p>
+        <p class="sobre-aviso" data-i18n="config.sobre.aviso"></p>
+      </section>
+
+      <section class="secao" aria-labelledby="s-referencias">
+        <h2 id="s-referencias" data-i18n="config.referencias.titulo"></h2>
+        <p class="nota" data-i18n="config.referencias.nota"></p>
+        <details class="avancado">
+          <summary data-i18n="config.referencias.abrir"></summary>
+          <dl class="referencias" id="referencias"></dl>
+        </details>
+      </section>
+    </div>
+
+    <div class="barra-salvar" id="barra-salvar" hidden>
+      <div class="barra-texto" role="status" aria-live="polite">
+        <p id="salvar-msg"></p>
+        <ul class="erros" id="salvar-erros"></ul>
+      </div>
+      <div class="barra-acoes">
+        <button type="button" class="bt-texto" id="bt-descartar" data-i18n="config.descartar"></button>
+        <button type="button" class="bt bt-primario" id="bt-salvar" data-i18n="config.salvar"></button>
+      </div>
+    </div>
+  </section>
+
+  <div class="motor-parou" id="motor-parou" role="alert" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.2 2.6 19.8h18.8z"/><path d="M12 9.6v4.6M12 16.9v.3"/></svg>
+    <p id="motor-parou-texto"></p>
+  </div>
+</main>
+
+<template id="tpl-colar">
+  <p class="nota nota-aviso" data-papel="sem-seletor" data-i18n="config.sem_seletor" hidden></p>
+  <div class="colar-linha">
+    <label class="rotulo" data-i18n="config.colar_rotulo"></label>
+    <div class="colar-campo">
+      <input type="text" spellcheck="false" autocomplete="off" data-i18n-attr="placeholder:config.colar_dica">
+      <button type="button" class="bt bt-primario" data-acao="usar" data-i18n="config.usar"></button>
+      <button type="button" class="bt-texto" data-acao="procurar" data-i18n="config.procurar"></button>
+      <button type="button" class="bt-texto" data-acao="fechar" data-i18n="config.fechar_painel"></button>
+    </div>
+    <p class="erro-campo" data-papel="erro" role="status" hidden></p>
+  </div>
+  <div class="navegador" data-papel="navegador" hidden>
+    <div class="navegador-topo">
+      <button type="button" class="bt" data-acao="acima" data-i18n="config.acima"></button>
+      <span class="navegador-atual" data-papel="atual" tabindex="-1"></span>
+    </div>
+    <ul class="navegador-lista" data-papel="lista"></ul>
+  </div>
+</template>
+
+</body>
+</html>

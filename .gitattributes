@@ -1,0 +1,8 @@
+# O cmd.exe le o lote por offset de byte e exige CRLF. O sh do Git for Windows
+# quebra com CR no fim da linha, entao ganchos e .sh vao em LF.
+* text=auto
+*.cmd text eol=crlf
+*.bat text eol=crlf
+.githooks/* text eol=lf
+*.sh text eol=lf
+packager/LEIA-ME.txt text eol=crlf

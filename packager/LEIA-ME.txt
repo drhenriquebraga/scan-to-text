@@ -1,0 +1,54 @@
+SCAN-TO-TEXT - LEIA-ME
+======================
+
+O QUE E
+  O Scan-to-Text vigia a pasta onde o scanner grava os documentos e
+  transcreve cada um, literalmente, para texto (Markdown), organizado por
+  paciente, categoria e data. Tudo roda neste computador, sem internet.
+
+  Transcricao literal: o app nao interpreta, nao resume e
+  nao e dispositivo medico. O arquivo original, que fica ao lado de
+  cada transcricao, e sempre a fonte da verdade.
+
+INSTALAR (uma vez em cada computador)
+  1. Clique com o botao direito no arquivo .zip e escolha "Extrair tudo...".
+  2. Abra a pasta extraida e de dois cliques em INSTALL.cmd.
+  3. Se o Windows mostrar "O Windows protegeu o computador", clique em
+     "Mais informacoes" e depois em "Executar assim mesmo".
+  4. Espere aparecer PRONTO. O app abre sozinho.
+
+  Nao precisa de administrador nem de internet. O app fica em
+  C:\RADIOTERAPIA_AI\SCAN_TO_TEXT, com atalhos na area de trabalho e no
+  menu Iniciar (pasta Braga HealthLab). O instalador confere o espaco
+  livre no disco e avisa se faltar.
+
+  Na primeira vez, quem configura escolhe na engrenagem as pastas de
+  origem (onde o scanner grava) e de destino (onde ficam os textos).
+
+USO DIARIO
+  Abra o Scan-to-Text pelo atalho e aperte START uma vez. Fechar a janela
+  para tudo.
+
+ATUALIZAR
+  Feche o Scan-to-Text. Faca o mesmo com o .zip da versao nova: extrair e
+  dois cliques em INSTALL.cmd. As configuracoes (config.json) e as pastas
+  de destino dos pacientes nao sao tocadas.
+
+DESINSTALAR
+  Feche o Scan-to-Text. Abra o Prompt de Comando na pasta extraida do .zip
+  e digite:
+      INSTALL.cmd desinstalar
+  Isso apaga a pasta do app (com o config.json), os atalhos e a linha do
+  Scan-to-Text em C:\RADIOTERAPIA_AI\_instalados.json. As pastas de
+  destino, com os documentos dos pacientes, nao sao tocadas.
+
+SE ALGO DER ERRADO
+  A janela do instalador diz o motivo. O que ele fez fica em
+  INSTALL_LOG.txt, na pasta extraida, ao lado do INSTALL.cmd. Leve esse
+  arquivo a quem cuida da instalacao. Ele nao tem dado de paciente.
+
+REQUISITOS
+  Windows 10 ou 11, 64 bits. Disco local: o app nao roda de pasta de rede.
+
+COMPONENTES DE TERCEIROS
+  Licencas e avisos em AVISOS-DE-TERCEIROS.txt, nesta pasta.

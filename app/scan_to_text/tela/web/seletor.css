@@ -1,0 +1,72 @@
+/* Seletor de idioma com bandeira.
+
+   Copiado do local-suite v8.3 (app/radai_languages.py, bloco
+   `radai-idioma-css` de `_bloco_completo`; commit 55cffa9, Apache-2.0), sem
+   mudança de desenho. Mudanças: a seta e o recuo do botão usam propriedades
+   lógicas (no português o desenho é o mesmo) e a lista abre do canto certo
+   também no árabe.
+
+   Duas formas, a mesma escolha. A LISTA (padrão) é o botão com a bandeira e
+   o nome da língua que abre as doze; serve o canto do cabeçalho. A GRADE
+   (`data-radai-idiomas="grade"`) mostra as doze de uma vez; serve a seção de
+   idioma das configurações. */
+.radai-lang{position:relative;display:inline-block;font-family:inherit;
+--rl-curva:cubic-bezier(.22,1,.36,1)}
+.radai-lang .rl-band{display:inline-block;width:21px;height:14px;flex:0 0 auto;
+border-radius:2px;overflow:hidden;line-height:0;
+box-shadow:0 0 0 1px var(--line-strong,#2a3a55)}
+.radai-lang .rl-band svg{display:block;width:100%;height:100%}
+.radai-lang .rl-bt{display:inline-flex;align-items:center;gap:8px;
+background:var(--panel-2,#0f1729);border:1px solid var(--accent-line,#2a3d57);
+color:var(--text,#e6edf7);border-radius:var(--r-md,6px);padding-block:6px;
+padding-inline:8px 10px;
+font-family:inherit;font-size:12.5px;font-weight:500;line-height:1.2;cursor:pointer;
+transition:background .12s,border-color .12s}
+.radai-lang .rl-bt:hover{border-color:var(--accent,#4DA3FF)}
+.radai-lang .rl-bt:focus-visible,.radai-lang .rl-op:focus-visible{
+outline:2px solid var(--accent,#4DA3FF);outline-offset:2px}
+.radai-lang .rl-seta{width:0;height:0;margin-inline-start:2px;opacity:.7;
+border-inline:4px solid transparent;
+border-top:5px solid currentColor;transition:transform .18s}
+.radai-lang.on .rl-seta{transform:rotate(180deg)}
+/* A lista abre por opacidade e deslocamento, e não por `display`: o navegador
+   não interpola `display`. `visibility` tira as opções do alcance do Tab
+   enquanto a lista está fechada. */
+.radai-lang .lista{position:absolute;inset-inline-end:0;top:calc(100% + 6px);
+z-index:30;min-width:224px;max-height:60vh;overflow-y:auto;padding:4px;
+background:var(--panel,#0c1322);border:1px solid var(--accent-line,#2a3d57);
+border-radius:var(--r-lg,8px);box-shadow:var(--sombra,0 8px 24px rgba(0,0,0,.5));
+opacity:0;visibility:hidden;transform:translateY(-6px) scale(.98);
+transform-origin:top right;
+transition:opacity .16s ease,transform .18s var(--rl-curva),
+visibility 0s linear .18s}
+[dir="rtl"] .radai-lang .lista{transform-origin:top left}
+.radai-lang.on .lista{opacity:1;visibility:visible;transform:none;
+transition:opacity .16s ease,transform .18s var(--rl-curva),visibility 0s}
+.radai-lang .rl-op{display:flex;width:100%;gap:9px;align-items:center;
+padding:7px 9px;border:0;border-radius:var(--r-sm,5px);background:transparent;
+color:var(--text,#e6edf7);font-family:inherit;font-size:12.5px;line-height:1.3;
+text-align:start;cursor:pointer}
+.radai-lang .rl-op:hover{background:var(--panel-2,#0f1729)}
+.radai-lang .rl-op.on{background:var(--accent-fraco,rgba(77,163,255,.14));font-weight:600}
+/* O nome não estica: com `flex:1` a caixa do árabe (que tem `dir="rtl"`)
+   ocupava a linha inteira e o nome ia parar na ponta oposta à bandeira. */
+.radai-lang .rl-nome{flex:0 1 auto;min-width:0}
+.radai-lang .rl-cod{margin-inline-start:auto;padding-inline-start:12px;
+font-family:var(--font-mono,monospace);font-size:10px;
+letter-spacing:.08em;color:var(--text-dim,#72829b)}
+/* A grade: doze botões do mesmo tamanho, a escolhida com a borda do acento
+   (a cor sozinha não carrega o estado: o `aria-checked` e o peso da letra
+   vão junto). */
+.radai-lang.rl-grade{display:grid;width:100%;gap:6px;
+grid-template-columns:repeat(auto-fill,minmax(158px,1fr))}
+.radai-lang.rl-grade .rl-op{border:1px solid var(--line,#1e293b);
+background:var(--panel-2,#0f1729);padding:8px 10px}
+.radai-lang.rl-grade .rl-op:hover{border-color:var(--line-strong,#2a3a55)}
+.radai-lang.rl-grade .rl-op.on{border-color:var(--accent,#4DA3FF);
+box-shadow:inset 0 0 0 1px var(--accent,#4DA3FF);
+background:var(--accent-fraco,rgba(77,163,255,.14))}
+/* O menu suspenso sai da faixa do cabeçalho e fica acima do conteúdo. */
+.topo .radai-lang .lista{z-index:1000}
+@media (prefers-reduced-motion:reduce){
+.radai-lang .lista,.radai-lang.on .lista,.radai-lang .rl-seta{transition:none}}

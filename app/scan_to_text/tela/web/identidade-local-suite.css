@@ -1,0 +1,37 @@
+/* Scan-to-Text: as cores da identidade.
+
+   Camada só de cor (fundo, borda, traço e texto) sobre estilo.css: medida,
+   tipografia e movimento ficam lá. Carrega depois das outras folhas, porque
+   redefine as fichas de :root. Ação, foco, borda de controle, sucesso, aviso
+   e perigo continuam as de estilo.css. O dourado é só enfeite: não marca
+   estado, e o foco azul do START passa por cima dele. */
+:root{
+ --bg-0:#08111f;
+ --bg-1:#0b1423;
+ --panel:#0e1828;
+ --panel-2:#101b2d;
+ --line:#29374d;
+ --line-strong:#2c3a51;
+ --text:#e6edf7;
+ --text-muted:#aab9ce;
+ --text-dim:#94a5bd;
+ --marca-grad:linear-gradient(100deg,#66c4ff 0%,#7da4f8 48%,#b49aec 100%);
+ --stt-chrome:#08111f;
+ --stt-icone:#9bb0cc;
+ --stt-ouro:#b59c79;
+ --stt-ouro-discreto:#b59c7966;
+}
+.topo{
+ background:var(--stt-chrome);
+ border-block-end-color:var(--line);
+}
+.marca-nome{color:#f2f5fb}
+.icone:not(:hover){color:var(--stt-icone)}
+.start-colar{border-color:var(--stt-ouro-discreto)}
+.start[aria-disabled="true"] .start-colar{border-color:var(--line-strong)}
+.start:not([aria-disabled="true"]):hover .start-colar{border-color:var(--stt-ouro)}
+.start:focus-visible .start-colar,
+.start:not([aria-disabled="true"]):focus-visible:hover .start-colar{border-color:var(--accent)}
+.pasta,.painel-colar,.log,.sobre-aviso{border-color:var(--line-strong)}
+.pasta > svg,.navegador-lista button svg{stroke:var(--stt-icone)}
+.barra-salvar{background:var(--stt-chrome);border-block-start-color:var(--stt-ouro-discreto)}

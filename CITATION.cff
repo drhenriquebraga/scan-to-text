@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: "Scan-to-Text: literal transcription and filing of scanned clinical documents"
+message: >-
+  If this software is useful in your work, a citation is appreciated.
+  It is asked for, not required by the licence.
+type: software
+authors:
+  - family-names: "Braga"
+    given-names: "Henrique Faria"
+    website: "https://radioterapia.ai"
+repository-code: "https://github.com/drhenriquebraga/scan-to-text"
+url: "https://radioterapia.ai"
+abstract: >-
+  A Windows application that watches the scanner folder of a radiotherapy
+  reception desk and transcribes, literally, every document that arrives into
+  Markdown, filed by patient, category and date, offline and unattended. Layout
+  analysis is performed by Docling and character recognition by RapidOCR with
+  PaddleOCR models, third-party components; this project builds the pipeline
+  around them. Part of Braga HealthLab. Not a medical device, and not
+  validated for clinical use.
+keywords:
+  - radiation therapy
+  - radiotherapy
+  - optical character recognition
+  - clinical documentation
+  - medical records
+  - windows
+  - offline
+license: Apache-2.0
+version: "1.0.0"

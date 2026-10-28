@@ -1,0 +1,404 @@
+# Rótulos de identificação do paciente.
+#
+# Os valores estão como impressos nos documentos. O motor compara sem acento e
+# sem distinguir maiúsculas; o ponto no fim de um rótulo abreviado é opcional,
+# porque o OCR o perde. Palavras que o YAML 1.1 lê como booleano ("no", "on")
+# ficam entre aspas.
+
+paciente:
+  # Rótulos que só servem ao paciente. A chave é o código gravado em
+  # Candidato.rotulo; "nome_social" é o único código de nome social.
+  especificos:
+    paciente: [Paciente, Pcte., Pac., Nome do paciente, Nome da paciente, Nome do(a) paciente]
+    nome_civil: [Nome civil]
+    beneficiario: [Beneficiário, Beneficiária, Nome do beneficiário, Nome da beneficiária]
+    nome_social: [Nome social]
+  # Rótulos que também aparecem para outras pessoas (médico, mãe, responsável).
+  # O valor é recusado quando há rótulo negativo sem nome próprio, ou registro
+  # de conselho, na mesma linha ou na vizinha.
+  genericos:
+    nome: [Nome, Nome completo]
+    cliente: [Cliente]
+    tratamento: [Sr., Sra., Sr(a)., Srta.]
+  # Códigos que valem no meio da frase, sem dois-pontos ("Encaminho a Sra. ...").
+  em_qualquer_posicao: [tratamento]
+
+# Rótulos de outras pessoas. Encerram o valor do paciente e, sem nome próprio
+# ao lado, recusam o valor de rótulo genérico vizinho.
+negativos:
+  - Médico
+  - Médica
+  - Médico(a)
+  - Médico solicitante
+  - Médica solicitante
+  - Médico(a) solicitante
+  - Médico assistente
+  - Médica assistente
+  - Médico responsável
+  - Médica responsável
+  - Médico requisitante
+  - Médico executante
+  - Solicitante
+  - Requisitante
+  - Executante
+  - Responsável
+  - Responsável técnico
+  - Responsável técnica
+  - Laudo liberado por
+  - Liberado por
+  - Liberado eletronicamente por
+  - Assinado digitalmente por
+  - Assinado eletronicamente por
+  - Assinado por
+  - Conferido por
+  - Digitado por
+  - Revisado por
+  - Profissional
+  - Profissional solicitante
+  - Profissional executante
+  - Prestador
+  - Contratado
+  - Nome do médico
+  - Nome da médica
+  - Nome do profissional
+  - Nome do solicitante
+  - Nome do responsável
+  - Nome do acompanhante
+  - Nome da mãe
+  - Nome do pai
+  - Mãe
+  - Pai
+  - Acompanhante
+
+# Rótulos de outros campos do cabeçalho. Encerram o valor do nome
+# ("Paciente: X  Idade: 54" dá X). Nenhum deles é sobrenome comum. O leitor
+# junta as caixas da linha com um espaço só, então o vão quase nunca separa os
+# campos: o nome acaba no rótulo desta lista, numa palavra seguida de
+# dois-pontos ou numa palavra abreviada seguida de número.
+# Expressões em que a palavra de um rótulo negativo é adjetivo: título de
+# documento ou nome de convênio, e não campo de outra pessoa. Rótulo negativo
+# dentro delas não encerra nem recusa nada. Título de bloco de profissional
+# ("DADOS DO MÉDICO", "Equipe médica", "Auditoria médica", "Perícia médica",
+# "Clínica médica", "Orientação médica") não entra: ali a palavra abre o bloco
+# do médico, e o "Nome:" vizinho é o dele.
+negativos_adjetivos:
+  - Receita médica
+  - Receituário médico
+  - Relatório médico
+  - Laudo médico
+  - Atestado médico
+  - Parecer médico
+  - Pedido médico
+  - Prescrição médica
+  - Declaração médica
+  - Consulta médica
+  - Evolução médica
+  - Encaminhamento médico
+  - Resumo médico
+  - Histórico médico
+  - Sumário médico
+  - Prontuário médico
+  - Solicitação médica
+  - Avaliação médica
+  - Assistência médica
+  - Assistência médico-hospitalar
+  - Plano médico
+
+outros_campos:
+  - OS
+  - O.S.
+  - ID
+  - Nº
+  - N°
+  - Pront.
+  - Reg.
+  - Ped.
+  - Req.
+  - Conv.
+  - Dt.
+  - Atend.
+  - Matr.
+  - Prot.
+  - Senha
+  - Idade
+  - Sexo
+  - Gênero
+  - Prontuário
+  - Registro
+  - Atendimento
+  - Convênio
+  - Plano
+  - Carteirinha
+  - Matrícula
+  - CPF
+  - RG
+  - CNS
+  - Cartão SUS
+  - Leito
+  - Quarto
+  - Setor
+  - Unidade
+  - Origem
+  - Pedido
+  - Requisição
+  - Protocolo
+  - Código
+  - Cód.
+  - Data
+  - Hora
+  - Coleta
+  - Emissão
+  - Telefone
+  - Tel.
+  - Celular
+  - Endereço
+  - Exame
+  - Material
+  - Peso
+  - Altura
+
+# Tratamentos profissionais. Valor que começa com um deles não é paciente; no
+# meio do valor, encerram o nome.
+prefixos_profissionais: [Dr., Dra., Dr(a)., Doutor, Doutora, Prof., Profa.]
+
+# Registros de conselho profissional. Aceitam a UF colada ou separada
+# ("CRM-SP", "CRMSP").
+conselhos: [CRM, CRBM, CRF, CRO, COREN, CRN, CRP, CREFITO, CRBio, CRFa, CRTR, CRMV, RQE]
+
+nascimento:
+  rotulos:
+    - Data de nascimento
+    - Data de nasc.
+    - Data nasc.
+    - Dt. nasc.
+    - Dt. de nascimento
+    - DN
+    - D.N.
+    - D.Nasc.
+    - Nasc.
+    - Nascimento
+  # Rótulos que também são sobrenome comum: só valem com dois-pontos, no
+  # começo da linha ou depois de um vão.
+  ambiguos: [Nascimento]
+  # Ordem dos números na data: dma (dia, mês, ano) ou mda.
+  ordem: dma
+  # Ano com dois dígitos: até o pivô é 20aa; acima, 19aa.
+  pivo_seculo: 30
+
+# Partículas opcionais na comparação de nomes.
+particulas: [da, de, do, dos, das, e]
+
+# Abreviações que fazem parte do nome. Fora delas, palavra de duas letras ou
+# mais terminada em ponto encerra o nome (fim de frase ou rótulo abreviado).
+# O sufixo fica sempre: é ele que separa pai e filho homônimos.
+abreviacoes_de_nome: [Jr., Sto., Sta.]
+
+# Primeiros nomes comuns que, seguidos de "sobrenome" de até 2 letras, indicam
+# nome truncado. Porte de SuspectNameValidator.NOMES_COMUNS_ISOLADOS
+# (photoid-rt, Apache-2.0).
+nomes_comuns:
+  - JOAO
+  - JOSE
+  - MARIA
+  - ANA
+  - ANTONIO
+  - PEDRO
+  - PAULO
+  - CARLOS
+  - FRANCISCO
+  - MANUEL
+  - MANOEL
+  - LUIS
+  - LUIZ
+  - LUCAS
+  - MIGUEL
+  - GABRIEL
+  - RAFAEL
+  - DANIEL
+  - MATEUS
+  - MATHEUS
+  - BRUNO
+  - MARCOS
+  - MARCO
+  - MARCIO
+  - ROBERTO
+  - RICARDO
+  - EDUARDO
+  - FERNANDO
+  - LUCIA
+  - JULIA
+  - JULIANA
+  - PATRICIA
+  - FERNANDA
+  - ROSANE
+  - ROSA
+  - MARGARIDA
+  - BEATRIZ
+  - TERESA
+  - TEREZA
+  - SILVIA
+  - SILVANA
+  - REGINA
+  - ROSANGELA
+  - SANDRA
+  - ELIZABETE
+  - ELIZABETH
+  - CRISTINA
+
+# Palavras que nunca fazem parte de nome de pessoa: instituição, cargo, título
+# de exame, termo anatômico e palavras de frase. A primeira que aparece encerra o
+# nome; se ela abre o valor, o valor não é nome.
+nao_nome:
+  # instituições
+  - Hospital
+  - Hosp.
+  - Clínica
+  - Policlínica
+  - Laboratório
+  - Instituto
+  - Centro
+  - Fundação
+  - Associação
+  - Serviço
+  - Diagnóstico
+  - Diagnósticos
+  - Medicina
+  - Imagem
+  - Oncologia
+  - Radioterapia
+  - Radiologia
+  - Patologia
+  - Ltda
+  - Cooperativa
+  - Operadora
+  - Seguradora
+  # cargos e funções, que seguem o tratamento em carta ("Ao Sr. Diretor")
+  - Diretor
+  - Diretora
+  - Diretoria
+  - Coordenador
+  - Coordenadora
+  - Coordenação
+  - Gerente
+  - Gerência
+  - Chefe
+  - Chefia
+  - Colega
+  - Colegas
+  - Secretário
+  - Secretária
+  - Supervisor
+  - Supervisora
+  - Presidente
+  - Superintendente
+  - Administrador
+  - Administradora
+  - Auditor
+  - Auditora
+  - Enfermeiro
+  - Enfermeira
+  - Enfermagem
+  # títulos de exame e de documento
+  - Laudo
+  - Resultado
+  - Relatório
+  - Encaminhamento
+  - Tomografia
+  - Ressonância
+  - Ultrassonografia
+  - Ultrassom
+  - Mamografia
+  - Radiografia
+  - Densitometria
+  - Cintilografia
+  - Hemograma
+  - Biópsia
+  - Anatomopatológico
+  - Histopatológico
+  - Imuno-histoquímica
+  - Imunohistoquímica
+  - Ecocardiograma
+  - Eletrocardiograma
+  - Endoscopia
+  - Colonoscopia
+  - Bilateral
+  - Contraste
+  - Raio
+  - RX
+  - Assinatura
+  - Carimbo
+  # termos anatômicos
+  - Mama
+  - Mamas
+  - Próstata
+  - Tórax
+  - Abdome
+  - Abdômen
+  - Pelve
+  - Crânio
+  - Encéfalo
+  - Pescoço
+  - Pulmão
+  - Pulmões
+  - Fígado
+  - Útero
+  - Ovário
+  - Ovários
+  - Reto
+  - Cólon
+  - Rim
+  - Rins
+  - Bexiga
+  - Tireoide
+  - Estômago
+  - Esôfago
+  - Pâncreas
+  - Axila
+  - Coluna
+  # palavras de frase
+  - em
+  - com
+  - sem
+  - para
+  - por
+  - pelo
+  - pela
+  - "no"
+  - na
+  - nos
+  - nas
+  - ao
+  - aos
+  - um
+  - uma
+  - que
+  - se
+  - não
+  - foi
+  - anos
+  - apresenta
+  - apresentando
+  - refere
+  - relata
+  - nega
+  - evolui
+  - encaminhado
+  - encaminhada
+  - portador
+  - portadora
+  - submetido
+  - submetida
+  - internado
+  - internada
+  - brasileiro
+  - brasileira
+  - casado
+  - casada
+  - solteiro
+  - solteira
+  - viúvo
+  - viúva
+  - divorciado
+  - divorciada
+  - masculino
+  - feminino

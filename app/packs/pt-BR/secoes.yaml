@@ -1,0 +1,122 @@
+# Regras de limpeza (entender/limpar.py).
+#
+# Rótulos e títulos ficam na forma natural; o código os compara sem acento e
+# sem caixa. As chaves `citacao` e `faixas` são expressões regulares aplicadas
+# ao texto dobrado (minúsculas, sem acento), por isso não levam acento.
+
+bibliografia:
+  # Título que abre a bibliografia: a linha inteira, sem contar pontuação.
+  titulos:
+    - Referências bibliográficas
+    - Referência bibliográfica
+    - Bibliografia
+    - Referências
+  # Nunca abrem bibliografia: têm regra própria (valores de referência).
+  nunca:
+    - Valores de referência
+    - Valor de referência
+    - Intervalo de referência
+    - Faixa de referência
+  # Cara de citação. Basta uma das três linhas seguintes ao título casar.
+  citacao:
+    - '\bet\.?\s+al\b'
+    - '\bdoi\b'
+    - '\bpmid\b'
+    - '\bv\.\s*\d+'
+    - '\bvol\.?\s*\d+'
+    - '\bpp?\.\s*\d+'
+    - '\bin:\s'
+  # Cara fraca de citação: ano com ponto e vírgula, ano entre parênteses,
+  # volume(número):página. Também aparece num valor de referência que cita a
+  # diretriz, por isso só conta em linha sem cara de resultado.
+  citacao_fraca:
+    - '\b(?:19|20)\d{2}[a-z]?\s*[;:]'
+    - '\((?:19|20)\d{2}[a-z]?\)'
+    - '\b\d+\s*\(\d+\)\s*:\s*\d+'
+  # Cara de resultado: comparação com número, número com porcentagem ou com
+  # unidade. Se uma linha do trecho que seria cortado tem essa cara (e não tem
+  # cara de citação), não é bibliografia: cortar levaria o resultado.
+  resultado:
+    - '[<>≤≥]\s*\d'
+    - '\d\s*%'
+    - '\d\s*[a-zµ]{0,4}/[a-zµ]'
+    - '\d\s*(?:mm|cm|ml|mg|g|kg|ng|pg|mcg|ui|mmol|meq|mmhg)(?![^\W\d_])'
+
+valores_de_referencia:
+  # Rótulos da coluna e do bloco. Só saem de documentos de 3 LABORATORIO.
+  rotulos:
+    - Valores de referência
+    - Valor de referência
+    - Valores referenciais
+    - Intervalo de referência
+    - Intervalos de referência
+    - Faixa de referência
+    - Faixas de referência
+    - Referências
+    - Referência
+    - VR
+    - V.R.
+  # Rótulos que também são palavra comum ("Referência do pedido: 123"). No
+  # começo da linha, só valem sozinhos ou seguidos de dois-pontos, igual,
+  # número ou comparação.
+  ambiguos:
+    - Referências
+    - Referência
+  # Rótulos que ficam: o recorte de uma referência para neles (unidade,
+  # método, material e resultado anterior ficam).
+  ficam:
+    - Resultado anterior
+    - Resultados anteriores
+    - Resultado
+    - Método
+    - Metodologia
+    - Material
+    - Amostra
+    - Unidade
+    - Observação
+    - Obs
+    - Nota
+  # Linha que continua um bloco de referência: faixa por sexo, idade ou nível,
+  # comparação ou intervalo no começo da linha. Com dois-pontos, a linha só é
+  # faixa se a faixa de verdade, a mesma do nível conhecido abaixo, vier:
+  # - logo depois do primeiro dois-pontos ("Fase folicular: 2 a 10");
+  # - logo depois de qualquer dois-pontos, com sexo ou nível no começo
+  #   ("Gestantes: 1º trimestre: 0,1 a 2,5"), mas não depois do dois-pontos
+  #   de uma hora ("08:30") nem quando o número segue como data
+  #   ("Gestante: sim   Coleta: 01-10-2026");
+  # - colada à palavra de sexo ou nível, sem outro rótulo depois ("Normal até
+  #   1:80").
+  # Também é faixa a palavra de sexo ou nível que fecha a linha nos dois-pontos
+  # ("Homens:", com a faixa na linha seguinte) e o comparador com número que
+  # fecha o rótulo ("Inferior a 0,9: não reagente"). Intervalo, comparação ou
+  # data no meio do resultado não fazem dele faixa: "Fase do ciclo: lútea (dia
+  # 21 a 23)", "Idade: 45 anos   Coleta: 01-10-2026", "Acima de 40 anos: sim",
+  # "Idade gestacional: 12 semanas" e "Idade:" sozinho ficam.
+  # No intervalo, o "a" vem separado do número: "45a 2m" é idade em anos e
+  # meses. Depois de "Idade", o intervalo seguido de unidade de tempo é o
+  # resultado ("Idade gestacional: 12-13 semanas"), a menos que outro
+  # dois-pontos venha logo depois ("Idade: 1 a 10 anos: até 300").
+  # Cada trecho repetido de um padrão casa de um jeito só (o dois-pontos
+  # depois de não dígito, ou depois de dígito sem dígito adiante): duas formas
+  # para o mesmo trecho fazem o padrão tentar 2^k caminhos numa linha de k
+  # dois-pontos, como um pontilhado lido pelo OCR.
+  faixas:
+    - '^(?![\W_]*idade(?![^\W\d_])[^:]*:\s*(?:de\s+)?\d+(?:[.,]\d+)?(?:\s*[-–—]|\s+(?:a|ate))\s*\d+(?:[.,]\d+)?\s*(?:dias?|semanas?|mes|meses|anos?)(?![^\W\d_])(?!\s*:))(?=[\W_]*(?:homens?|mulheres?|masculino|feminino|adultos?|criancas?|recem[- ]nascidos?|neonatos?|lactentes?|gestantes?|idosos?|idade|faixa etaria|desejavel|otimo|limitrofe|muito alto|alto|baixo|normal|elevado|intermediario|fase|pos[- ]menopausa|pre[- ]menopausa|menopausa|ate|acima|abaixo|inferior|superior|maior|menor|de\s+\d)(?![^\W\d_]))(?:[^:]*$|[^:]*:\s*(?:(?:de\s+)?\d+(?:[.,]\d+)?(?:\s*[-–—]|\s+(?:a|ate))\s*\d|entre\s+\d+(?:[.,]\d+)?\s*e\s*\d|[<>≤≥]=?\s*\d|(?:igual\s+ou\s+)?(?:superior|inferior|maior|menor)\s+(?:ou\s+igual\s+)?(?:a|que)\s*\d|(?:ate|acima\s+de|abaixo\s+de)\s*\d)|[\W_]*(?:homens?|mulheres?|masculino|feminino|adultos?|criancas?|recem[- ]nascidos?|neonatos?|lactentes?|gestantes?|idosos?|faixa etaria|desejavel|otimo|limitrofe|muito alto|alto|baixo|normal|elevado|intermediario|pos[- ]menopausa|pre[- ]menopausa|menopausa)(?![^\W\d_])(?:[^:]*:[\W_]*$|(?:[^:]*(?<!\d):|[^:]*(?<=\d):(?!\d))+\s*(?:(?:de\s+)?\d+(?:[.,]\d+)?(?:\s*[-–—]|\s+(?:a|ate))\s*\d|entre\s+\d+(?:[.,]\d+)?\s*e\s*\d|[<>≤≥]=?\s*\d|(?:igual\s+ou\s+)?(?:superior|inferior|maior|menor)\s+(?:ou\s+igual\s+)?(?:a|que)\s*\d|(?:ate|acima\s+de|abaixo\s+de)\s*\d)(?!\d*\s*[-/]\s*\d)|\s*(?:(?:de\s+)?\d+(?:[.,]\d+)?(?:\s*[-–—]|\s+(?:a|ate))\s*\d|entre\s+\d+(?:[.,]\d+)?\s*e\s*\d|[<>≤≥]=?\s*\d|(?:igual\s+ou\s+)?(?:superior|inferior|maior|menor)\s+(?:ou\s+igual\s+)?(?:a|que)\s*\d|(?:ate|acima\s+de|abaixo\s+de)\s*\d)(?:[^:]|(?<=\d):(?=\d))*$)|[\W_]*(?:ate|acima\s+de|abaixo\s+de|(?:igual\s+ou\s+)?(?:inferior|superior|maior|menor)\s+(?:ou\s+igual\s+)?(?:a|que))\s*\d(?:[^\w:]|\d)*:)'
+    - '^[\W_]*[<>≤≥]'
+    - '^[\W_]*\d+(?:[.,]\d+)?(?:\s*[-–—]|\s+(?:a|ate))\s*\d'
+    # Nome de nível conhecido antes dos dois-pontos e faixa de verdade depois:
+    # intervalo, comparação ou "igual ou superior a" com número ("Glicemia de
+    # jejum alterada: 100 a 125", "Diabetes: ≥ 6,5 %", "Deficiência: < 20
+    # ng/mL"). Só dentro de um bloco aberto por rótulo. Nome fora desta lista
+    # é resultado, mesmo escrito como faixa ("Hemácias: 0 a 1 por campo"), com
+    # comparador ("Anti-TPO: < 10") ou com data ("Data da coleta: 01-02-2026"),
+    # e fica. Nível conhecido sem faixa depois também fica ("Risco
+    # cardiovascular: baixo", "Tolerância oral à glicose: 140 mg/dL", "Risco
+    # calculado: 1/5000").
+    - '^[\W_]*(?:pre[- ]?diabetes|diabetes|glicemia\s+de\s+jejum\s+alterada|intolerancia|tolerancia|deficiencia|insuficiencia|suficiencia|toxicidade|risco)(?![^\W\d_])[^:\d()]{0,44}:\s*(?:(?:de\s+)?\d+(?:[.,]\d+)?(?:\s*[-–—]|\s+(?:a|ate))\s*\d|entre\s+\d+(?:[.,]\d+)?\s*e\s*\d|[<>≤≥]=?\s*\d|(?:igual\s+ou\s+)?(?:superior|inferior|maior|menor)\s+(?:ou\s+igual\s+)?(?:a|que)\s*\d|(?:ate|acima\s+de|abaixo\s+de)\s*\d)'
+  # Faixa numérica: intervalo ou comparação com número. Um rótulo que fecha uma
+  # linha com outro texto ("laboratório de referência") só abre um bloco se a
+  # linha seguinte for uma faixa numérica.
+  faixa_numerica:
+    - '\d(?:\s*[-–]|\s+(?:a|ate))\s*\d'
+    - '[<>≤≥]\s*\d'

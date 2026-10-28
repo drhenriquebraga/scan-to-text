@@ -1,0 +1,250 @@
+# Data do exame. Lido por scan_to_text.entender.datas.
+#
+# O texto é comparado "dobrado": minúsculas e sem acento, com o mesmo
+# comprimento do original. Rótulos, meses e termos daqui podem ter acento,
+# porque são dobrados ao carregar. Espaço num rótulo casa com qualquer
+# sequência de espaços no texto.
+
+# Mês por extenso ou abreviado.
+meses:
+  janeiro: 1
+  fevereiro: 2
+  março: 3
+  abril: 4
+  maio: 5
+  junho: 6
+  julho: 7
+  agosto: 8
+  setembro: 9
+  outubro: 10
+  novembro: 11
+  dezembro: 12
+  jan: 1
+  fev: 2
+  mar: 3
+  abr: 4
+  mai: 5
+  jun: 6
+  jul: 7
+  ago: 8
+  set: 9
+  out: 10
+  nov: 11
+  dez: 12
+
+# Ano com dois dígitos (dd/mm/aa): abaixo do pivô é 20aa; a partir dele, 19aa.
+ano_curto_pivo: 70
+
+# Formatos, em ordem: onde dois se sobrepõem, vale o que vem antes.
+# A ordem dia/mês/ano está nos grupos (d; m ou mes; a) e nunca é invertida:
+# 04/15/26 não é data em pt-BR. {meses} vira a lista de meses acima.
+# Nunca há data relativa ("há 3 dias", "ontem").
+formatos:
+  - precisao: dia   # 2026-04-02
+    regex: '(?<![\d/.\-])(?P<a>(?:19|20)\d{2})-(?P<m>0[1-9]|1[0-2])-(?P<d>0[1-9]|[12]\d|3[01])(?!\d|[/.\-]\d)'
+  # A colagem do OCR só dispensa a fronteira depois do ano quando vem uma
+  # hora completa válida. O lookahead deixa a hora fora do intervalo da data.
+  - precisao: dia   # dd/mm/aaaaHH:mm, com segundos opcionais
+    regex: '(?<![\d/.\-])(?P<d>0?[1-9]|[12]\d|3[01])(?P<s>[/.\-])(?P<m>0?[1-9]|1[0-2])(?P=s)(?P<a>\d{4})(?=(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?(?![\w:]|[/.,\-]\d))'
+  - precisao: dia   # dd/mm/aaaa, dd.mm.aaaa, dd-mm-aaaa, d/m/aaaa
+    regex: '(?<![\d/.\-])(?P<d>0?[1-9]|[12]\d|3[01])(?P<s>[/.\-])(?P<m>0?[1-9]|1[0-2])(?P=s)(?P<a>\d{4})(?!\d|[/.\-]\d)'
+  - precisao: dia   # 02/04/26, só com barra
+    regex: '(?<![\d/.\-])(?P<d>0?[1-9]|[12]\d|3[01])/(?P<m>0?[1-9]|1[0-2])/(?P<a>\d{2})(?!\d|[/.\-]\d)'
+  - precisao: dia   # 5 de março de 2026, 1º de abril de 2026, 05/MAR/2026, 12 set 2025
+    regex: '(?<![\d/.\-])(?P<d>0?[1-9]|[12]\d|3[01])\s*(?:[oº°]\s*)?(?:de\s+|[/.\-]\s*|\s+)(?P<mes>{meses})\.?(?:\s+de\s+|\s*[/.\-]\s*|\s+)(?P<a>\d{4})(?!\d)'
+  - precisao: mes   # março de 2026, mar/2026, fev. 2026
+    regex: '(?<!\w)(?P<mes>{meses})\.?(?:\s+de\s+|\s*[/.\-]\s*|\s+)(?P<a>(?:19|20)\d{2})(?!\d|[/.\-]\d)'
+  - precisao: mes   # 03/2026
+    regex: '(?<![\d/.\-])(?P<m>0?[1-9]|1[0-2])/(?P<a>(?:19|20)\d{2})(?!\d|[/.\-]\d)'
+  - precisao: ano   # 2026
+    regex: '(?<![\d/.,\-])(?P<a>(?:19|20)\d{2})(?!\d|[/.,\-]\d)'
+
+# Rótulos com papel. Só data rotulada vira data do exame: data solta no texto
+# não conta. Entre o rótulo e a data só pode haver pontuação e conectores
+# ("realizado no dia dd/mm/aaaa"), por isso o "em" não faz parte do rótulo.
+papeis:
+  realizacao:
+    - data do exame
+    - data de realização
+    - data da realização
+    - realizado
+    - realizada
+    - data do procedimento
+    - data da cirurgia
+    - data da biópsia
+    - data da coleta
+    - data de coleta
+    - data/hora da coleta
+    - coletado
+    - coletada
+    - coleta
+    - data do atendimento
+    - atendimento
+    - data da consulta
+    - data do estudo
+  recebimento:
+    - data de recebimento
+    - data do recebimento
+    - recebido
+    - recebida
+    - recebimento
+    - entrada do material
+    - data de entrada
+  liberacao:
+    - data de liberação
+    - data da liberação
+    - liberado
+    - liberada
+    - liberado eletronicamente
+    - liberação
+    - laudado
+    - data do laudo
+    - data da assinatura
+    - assinado
+    - assinado eletronicamente
+    - assinado digitalmente
+    - data de emissão
+    - data da emissão
+    - emitido
+    - emissão
+    - data do relatório
+    - data da alta
+  generico:
+    - data
+    - dt
+
+# Do mais forte ao mais fraco. "carta" é a data da linha "<Cidade>, <data>".
+prioridade: [realizacao, recebimento, liberacao, carta, generico]
+
+# Rótulos cuja data nunca é a do exame. Um destes antes da data, na mesma
+# linha e depois da data anterior, tira a data, mesmo com um rótulo de papel
+# entre ele e a data ("em comparação com a TC realizada em dd/mm/aaaa",
+# "retornar para coleta em dd/mm/aaaa"). No corpo, quando a linha termina sem
+# a data, a exclusão passa para a primeira data da linha seguinte do mesmo
+# parágrafo (a frase que quebra a linha).
+excluidos:
+  nascimento:
+    - data de nascimento
+    - data nascimento
+    - data nasc
+    - nascimento
+    - nasc
+    - dn
+    - d.n
+    - nascido
+    - nascida
+  impressao:
+    - impresso
+    - impressa
+    - data de impressão
+    - data da impressão
+    - impressão
+    - gerado
+    - gerada
+  validade:
+    - validade
+    - data de validade
+    - válido até
+    - válida até
+    - válido por
+    - vencimento
+    - data de vencimento
+    - vence
+  retorno:
+    - retorno
+    - data do retorno
+    - data de retorno
+    - retornar
+    - agendamento
+    - agendado
+    - agendada
+    - próxima consulta
+    - próximo retorno
+    - próximo atendimento
+    - próxima coleta
+    - próximo exame
+    - previsão de entrega
+    - previsão
+    - entrega do resultado
+    - data de entrega
+    - marcado
+    - marcada
+  dum:
+    - dum
+    - d.u.m
+    - data da última menstruação
+    - última menstruação
+  comparacao:
+    - comparação
+    - comparado
+    - comparada
+    - comparativo
+    - comparativa
+    - comparativamente
+    - exame anterior
+    - exames anteriores
+    - estudo anterior
+    - estudos anteriores
+    - exame prévio
+    - estudo prévio
+    - anterior
+    - anteriores
+    - prévio
+    - prévia
+    - prévios
+    - prévias
+
+# Palavras que podem ligar o rótulo à data ("realizado no dia dd/mm/aaaa").
+conectores: [em, de, do, da, "no", na, dia, às]
+
+# Linha da carta: só o nome da cidade (e a UF) e a vírgula antes da data, e
+# nada depois dela. Uma lista "Mamografia, dd/mm/aaaa" tem a mesma forma: com
+# várias linhas assim, vale a última do documento, onde a carta é datada.
+carta: '^\s*[^\W\d_]+(?:[\s''.\-/]+[^\W\d_]+){0,6}\s*,\s*$'
+
+# Linha que abre uma seção de comparação: as datas do corpo, dali até o
+# próximo título, são de exames anteriores e não contam.
+secoes_de_comparacao:
+  - comparação
+  - comparações
+  - comparativo
+  - comparativa
+  - estudo comparativo
+  - exame anterior
+  - exames anteriores
+  - estudo anterior
+  - estudos anteriores
+  - exame prévio
+  - exames prévios
+  - estudo prévio
+  - estudos prévios
+
+# Títulos que fecham a seção de comparação quando aparecem sozinhos ou com
+# dois-pontos ("Conclusão:"), além de toda linha marcada como título ou seção.
+fim_de_secao:
+  - conclusão
+  - conclusões
+  - impressão
+  - impressão diagnóstica
+  - opinião
+  - diagnóstico
+  - achados
+  - análise
+  - laudo
+  - resultado
+  - resultados
+  - relatório
+  - técnica
+  - observação
+  - observações
+  - comentário
+  - comentários
+  - nota
+  - notas
+  - indicação
+  - indicação clínica
+  - dados clínicos
+  - informações clínicas
+  - histórico
+  - descrição
+  - parecer

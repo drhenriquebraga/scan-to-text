@@ -1,0 +1,221 @@
+{
+  "titulo": "Scan-to-Text",
+  "marca": {
+    "nome": "Scan-to-",
+    "sufixo": "Text"
+  },
+  "topo": {
+    "configuracoes": "Configurações",
+    "voltar": "Voltar",
+    "idioma": "Idioma da interface"
+  },
+  "botao": {
+    "start": "START",
+    "stop": "STOP"
+  },
+  "inicio": {
+    "titulo": "Transcrição dos documentos do scanner",
+    "configurar": "Abrir configurações",
+    "manter_aberta": "O Scan-to-Text transcreve sozinho o que o scanner grava. Deixe esta janela aberta; pode minimizar.",
+    "hoje_nada": "Nenhum documento novo hoje.",
+    "hoje_um": "Hoje: 1 documento, o último às {hora}.",
+    "hoje": "Hoje: {documentos} documentos, o último às {hora}.",
+    "hoje_sem_texto": "Hoje: nenhum documento com texto, o último arquivo às {hora}.",
+    "desconhecidos_um": "1 sem nome identificado, na pasta DESCONHECIDO.",
+    "desconhecidos": "{n} sem nome identificado, na pasta DESCONHECIDO.",
+    "ilegiveis_um": "1 arquivo não pôde ser lido; o original está na pasta DESCONHECIDO.",
+    "ilegiveis": "{n} arquivos não puderam ser lidos; os originais estão na pasta DESCONHECIDO."
+  },
+  "estado": {
+    "parado": "Pronto",
+    "sem_config": "O Scan-to-Text ainda não foi configurado. Peça ao médico responsável para escolher as pastas na engrenagem.",
+    "trabalhando": "Lendo documentos…",
+    "ocioso": "Aguardando novos arquivos",
+    "parando": "Parando: terminando o arquivo atual…",
+    "pausado": "Leitura pausada",
+    "iniciando": "Iniciando…"
+  },
+  "aviso": {
+    "origem_inacessivel": "A pasta do scanner não abre: {pasta}.",
+    "origem_inacessivel_acao": "Confira se o computador ou o servidor do scanner está ligado e na rede. O app tenta de novo sozinho.",
+    "destino_inacessivel": "A pasta dos pacientes não responde: {pasta}.",
+    "destino_inacessivel_acao": "Nada foi perdido: os arquivos esperam na fila. Se continuar, avise o médico responsável.",
+    "disco_cheio": "Um disco ficou cheio e a leitura está pausada.",
+    "disco_cheio_acao": "Avise o suporte para liberar espaço. Nada foi perdido: os arquivos esperam na fila.",
+    "leitor_indisponivel": "O leitor de documentos não pôde ser carregado neste computador, e a leitura está pausada.",
+    "leitor_indisponivel_acao": "Nada foi perdido: os arquivos esperam na fila. Avise o suporte. O detalhe está em Configurações, Log.",
+    "config_ilegivel": "O arquivo de configurações desta máquina não pôde ser lido. Escolha as pastas de novo; o arquivo antigo fica guardado ao lado.",
+    "config_ilegivel_acao": "Avise o médico responsável.",
+    "tenta_de_novo": "O app tenta de novo sozinho na próxima varredura.",
+    "uma_pasta": "uma das pastas configuradas",
+    "acao_falhou": "O motor não respondeu ao comando. Tente de novo.",
+    "config_pendente": "Há alterações nas configurações que ainda não foram salvas.",
+    "idioma_nao_salvo": "O idioma escolhido não foi gravado. Na próxima abertura, a tela volta ao idioma anterior.",
+    "windows_nao_suportado": "Esta versão do Windows não é suportada. O Scan-to-Text precisa do Windows 10 ou 11.",
+    "windows_nao_suportado_acao": "Avise o suporte.",
+    "dotnet_antigo": "Neste computador a tela abre no navegador, e não na janela própria. Tudo funciona igual.",
+    "vcpp_ausente": "Falta um componente do Windows para ler os documentos.",
+    "vcpp_ausente_acao": "Avise o suporte. O detalhe está em Configurações, Log.",
+    "vcpp_antigo": "Um componente do Windows está desatualizado e a leitura dos documentos pode falhar.",
+    "vcpp_antigo_acao": "Avise o suporte. O detalhe está em Configurações, Log.",
+    "mfplat_ausente": "Falta um componente do Windows para ler fotos e imagens.",
+    "mfplat_ausente_acao": "PDFs são lidos normalmente. Avise o suporte.",
+    "disco_baixo": "Pouco espaço livre neste computador.",
+    "disco_baixo_acao": "Avise o suporte antes que o disco encha.",
+    "ram_baixa": "Pouca memória livre: a leitura pode ficar lenta.",
+    "ram_baixa_acao": "Fechar programas que não estão em uso ajuda.",
+    "estacao_ocupada": "Este computador está muito ocupado, e a leitura ficou mais lenta.",
+    "estacao_ocupada_acao": "Nada foi perdido: os arquivos esperam na fila. Fechar programas que não estão em uso ajuda.",
+    "memoria_baixa": "Falta memória livre neste computador, e a leitura ficou mais lenta.",
+    "memoria_baixa_acao": "Nada foi perdido: os arquivos esperam na fila. Fechar programas que não estão em uso ajuda.",
+    "desconhecido": "Aviso técnico do motor: {codigo}"
+  },
+  "motor": {
+    "parou": "O motor parou — feche esta janela e abra o Scan-to-Text de novo.",
+    "sem_acesso": "Esta página perdeu a ligação com o motor. Feche esta janela e abra o Scan-to-Text pelo atalho."
+  },
+  "conexao": {
+    "verificando": "Verificando conexão local",
+    "ativa": "Conexão local ativa",
+    "lenta": "Conexão local lenta",
+    "instavel": "Conexão local instável",
+    "inativa": "Sem conexão com o motor local",
+    "tempo": "· {ms} ms",
+    "ultima_resposta": "Última resposta válida: {hora}. Comunicação HTTP com o motor local.",
+    "aguardando_resposta": "Aguardando resposta válida do motor local."
+  },
+  "console": {
+    "titulo": "Scan-to-Text {versao}, modo texto",
+    "estado": "Estado: {estado}",
+    "menu": "Enter liga ou desliga a leitura. S e Enter fecha: ",
+    "sair": "s",
+    "navegador": "O Scan-to-Text está aberto no navegador. Esta janela fecha sozinha quando a página do app for fechada.",
+    "nao_abriu": "O Scan-to-Text não conseguiu abrir. O registro técnico fica em {pasta}."
+  },
+  "config": {
+    "titulo": "Configurações",
+    "remover": "Remover",
+    "remover_rotulo": "Remover {caminho}",
+    "colar": "Colar caminho",
+    "colar_rotulo": "Caminho da pasta",
+    "colar_dica": "C:\\pasta ou \\\\servidor\\pasta",
+    "usar": "Usar esta pasta",
+    "procurar": "Procurar pastas",
+    "acima": "Pasta acima",
+    "unidades": "Unidades deste computador",
+    "sem_seletor": "O seletor de pastas do Windows não abriu aqui. Cole o caminho ou procure a pasta.",
+    "conferindo": "Conferindo a pasta…",
+    "nuvem": "nuvem",
+    "corrigir_campo": "Corrija o campo destacado em Leitura para salvar.",
+    "sem_subpastas": "Nenhuma subpasta aqui.",
+    "pasta_inacessivel": "Não foi possível abrir esta pasta.",
+    "fechar_painel": "Fechar",
+    "ja_na_lista": "Esta pasta já está na lista.",
+    "origens": {
+      "titulo": "Origens",
+      "nota": "Pastas onde o scanner grava. O app só lê: nada é apagado, movido ou renomeado nelas.",
+      "adicionar": "Adicionar origem",
+      "vazio": "Nenhuma origem. Adicione a pasta onde o scanner grava os arquivos."
+    },
+    "destinos": {
+      "titulo": "Destinos",
+      "nota": "Pastas onde ficam as pastas dos pacientes. Espelho: todas as origens vão para todos os destinos.",
+      "nuvem": "Pasta sincronizada com a nuvem (OneDrive, Google Drive) é recusada: dado de paciente não sai da clínica.",
+      "adicionar": "Adicionar destino",
+      "vazio": "Nenhum destino. Adicione a pasta onde as pastas dos pacientes devem ficar."
+    },
+    "idiomas": {
+      "titulo": "Idiomas",
+      "interface": "Idioma da interface",
+      "sem_traducao": "Este idioma ainda não tem tradução. A tela continua em português.",
+      "principal": "Idioma principal dos documentos",
+      "principal_nota": "O idioma em que chega a maior parte dos documentos. Os rótulos de nome, data e título são lidos nele.",
+      "extras": "Idiomas extras dos documentos",
+      "extras_nota": "Marque só os idiomas que aparecem nos documentos que chegam à clínica.",
+      "extras_vazio": "Nenhum outro idioma tem regras de leitura nesta versão. Eles chegam junto com a tradução.",
+      "unico": "Os documentos são lidos em {idioma}. Outros idiomas chegam nas próximas versões."
+    },
+    "leitura": {
+      "titulo": "Leitura",
+      "ping": "Intervalo da varredura",
+      "ping_nota": "De quanto em quanto tempo o app procura arquivos novos nas origens.",
+      "minutos": "minutos",
+      "dias": "dias",
+      "segundos": "segundos",
+      "days_back": "Janela de dias",
+      "days_back_nota": "7 lê só os arquivos modificados nos últimos 7 dias. 0 lê todos, inclusive os antigos: a primeira leitura pode levar horas.",
+      "avancado": "Avançado",
+      "estabilidade": "Estabilidade do arquivo",
+      "estabilidade_nota": "Tempo sem mudar antes de ler. O scanner grava o PDF aos poucos.",
+      "ocioso": "Liberar a memória depois de",
+      "ocioso_nota": "Sem arquivo novo por esse tempo, o leitor sai e devolve a memória ao Windows.",
+      "invalido": "Use um número inteiro a partir de {minimo}.",
+      "invalido_decimal": "Use um número a partir de {minimo}."
+    },
+    "salvar": "Salvar",
+    "salvando": "Salvando…",
+    "descartar": "Descartar alterações",
+    "pendente": "Há alterações não salvas.",
+    "salvo": "Configurações salvas.",
+    "nao_salvou": "Não foi possível salvar:",
+    "log": {
+      "titulo": "Log",
+      "nota": "Eventos recentes do motor, sem nome de paciente. Para mandar ao suporte, salve o log num pendrive.",
+      "vazio": "Nenhum evento ainda.",
+      "salvar": "Salvar log",
+      "destino": "Salvar o log aqui",
+      "salvo": "Log salvo em {arquivo}",
+      "falhou": "Não foi possível gravar o log nessa pasta."
+    },
+    "sobre": {
+      "titulo": "Sobre",
+      "versao": "Versão {versao}",
+      "aviso": "Transcrição literal, feita por leitores de caracteres de terceiros. O app não interpreta, não resume e não é dispositivo médico. O arquivo de conferência e o original são a fonte da verdade."
+    },
+    "referencias": {
+      "titulo": "Referências",
+      "nota": "Componentes de terceiros que fazem este app funcionar, com as licenças deles.",
+      "abrir": "Ver os componentes e as licenças",
+      "itens": [
+        {"nome": "Docling", "papel": "Leitura do layout, das tabelas e do DOCX", "licenca": "MIT; modelos de layout Apache-2.0 e TableFormer CDLA-Permissive-2.0"},
+        {"nome": "RapidOCR e modelos PaddleOCR", "papel": "Reconhecimento dos caracteres e orientação da página", "licenca": "Apache-2.0"},
+        {"nome": "onnxruntime", "papel": "Execução dos modelos de reconhecimento", "licenca": "MIT"},
+        {"nome": "PyTorch", "papel": "Base exigida pelo Docling", "licenca": "BSD-3-Clause"},
+        {"nome": "pypdfium2 e PDFium", "papel": "Leitura e recorte dos PDFs", "licenca": "Apache-2.0 ou BSD-3-Clause"},
+        {"nome": "pi-heif", "papel": "Fotos HEIC do iPhone", "licenca": "LGPL, usada como biblioteca"},
+        {"nome": "Pillow", "papel": "Imagens", "licenca": "MIT-CMU"},
+        {"nome": "rapidfuzz", "papel": "Comparação de nomes", "licenca": "MIT"},
+        {"nome": "pywebview e pythonnet", "papel": "Janela própria", "licenca": "BSD-3-Clause e MIT"},
+        {"nome": "FastAPI e uvicorn", "papel": "Ligação local entre esta tela e o motor", "licenca": "MIT e BSD-3-Clause"},
+        {"nome": "Transitions.dev: matrix-dot-loader e shimmer-text", "papel": "Os dois efeitos da tela inicial, adaptados", "licenca": "Termos do Transitions.dev: uso em produto permitido, com crédito"},
+        {"nome": "Local Suite (Radioterapia.ai)", "papel": "Seletor de idioma e bandeiras", "licenca": "Apache-2.0"},
+        {"nome": "Microsoft Edge WebView2 (Fixed Version)", "papel": "Motor da janela, dentro do pacote", "licenca": "Termos da Microsoft, com o aviso de H.264"},
+        {"nome": "Runtime Visual C++ da Microsoft", "papel": "Exigido pelo PyTorch e pelo onnxruntime", "licenca": "Termos do Visual Studio (Distributable Code)"},
+        {"nome": "Python", "papel": "Linguagem do app, embutida no pacote", "licenca": "PSF-2.0"}
+      ]
+    }
+  },
+  "erro_pasta": {
+    "origem_ilegivel": "Este computador não consegue abrir {caminho}.",
+    "destino_ilegivel": "Este computador não consegue gravar em {caminho}.",
+    "destino_em_origem": "{caminho} fica dentro de uma origem. Escolha uma pasta fora das origens.",
+    "origem_em_destino": "{caminho} fica dentro de um destino. Escolha pastas separadas.",
+    "origem_contem_destino": "{caminho} contém uma pasta de destino. Escolha pastas separadas.",
+    "destino_contem_origem": "{caminho} contém uma origem. Escolha pastas separadas.",
+    "destino_em_nuvem": "{caminho} é sincronizada com a nuvem. Dado de paciente não sai da clínica: escolha outra pasta.",
+    "pasta_repetida": "{caminho} já está na lista, com este nome ou com o nome do servidor na rede."
+  },
+  "erro": {
+    "origem_ilegivel": "Uma das origens não pode ser lida por esta estação.",
+    "destino_ilegivel": "Uma das pastas de destino não aceita gravação por esta estação.",
+    "destino_em_origem": "Um destino está dentro de uma origem. Escolha uma pasta fora das origens.",
+    "origem_em_destino": "Uma origem está dentro de um destino. Escolha pastas separadas.",
+    "destino_em_nuvem": "Um destino está numa pasta sincronizada com a nuvem.",
+    "pasta_repetida": "Uma pasta aparece duas vezes na lista.",
+    "idioma_desconhecido": "Um dos idiomas escolhidos não existe nesta versão.",
+    "idioma_sem_regras": "Um dos idiomas dos documentos ainda não tem regras de leitura nesta versão.",
+    "numero_invalido": "Um dos intervalos está fora do aceito. Confira os números em Leitura.",
+    "corpo_invalido": "O pedido chegou ao motor num formato inesperado. Nada foi gravado.",
+    "desconhecido": "Erro do motor: {codigo}"
+  }
+}

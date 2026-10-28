@@ -1,0 +1,64 @@
+# Todo texto de saída do escritor (app/scan_to_text/escrever/).
+#
+# Nomes de pasta e de arquivo vão sem acento e em maiúsculas, no padrão do
+# photoid-rt: o teste confere que cada um já está
+# normalizado. Os textos de leitura (dentro do Markdown) vão com acento.
+# O número na frente de cada categoria mantém a ordem em qualquer idioma.
+
+pastas:
+  categorias:
+    1: 1 RELATORIOS MEDICOS E ENCAMINHAMENTOS
+    2: 2 EXAMES DE IMAGEM E ONCOLOGICOS
+    3: 3 LABORATORIO
+    4: 4 ANATOMOPATOLOGICO IHQ E GENETICA
+    5: 5 OUTROS
+  desconhecido: DESCONHECIDO
+  originais: ORIGINAIS
+  mais_de_um_paciente: _ARQUIVOS COM MAIS DE UM PACIENTE
+
+arquivos:
+  completo: COMPLETO.md
+  leia_me: LEIA-ME.txt
+  # Sufixo do PDF com só as páginas de um paciente, num arquivo misto.
+  paginas_deste_paciente: "(paginas deste paciente)"
+
+documento:
+  sem_data: SEM DATA
+  sem_titulo: DOCUMENTO
+
+markdown:
+  categorias:
+    1: 1 RELATÓRIOS MÉDICOS E ENCAMINHAMENTOS
+    2: 2 EXAMES DE IMAGEM E ONCOLÓGICOS
+    3: 3 LABORATÓRIO
+    4: 4 ANATOMOPATOLÓGICO IHQ E GENÉTICA
+    5: 5 OUTROS
+  # Rótulos do cabeçalho de identificação e o formato de cada linha.
+  paciente: Paciente
+  data_exame: Data do exame
+  instituicao: Instituição
+  campo: "{rotulo}: {valor}"
+  # Data do exame no cabeçalho, por precisão (formato do strftime).
+  formato_data:
+    dia: "%d/%m/%Y"
+    mes: "%m/%Y"
+    ano: "%Y"
+  # Aviso de números.
+  aviso: DADOS NUMÉRICOS ISOLADOS NÃO SÃO CONFIÁVEIS
+  leitura_incerta: "Leitura incerta nestas linhas:"
+  # COMPLETO.md: título do índice e o separador entre data e título.
+  indice: Índice
+  separador: " — "
+
+# Motivo escrito no LEIA-ME.txt de um arquivo ilegível, pelo código
+# que a leitura devolve em Resultado.ilegivel. Todo código passado a
+# Ilegivel em app/scan_to_text/ler/ precisa de chave aqui (o teste confere).
+leia_me:
+  senha: protegido por senha
+  corrompido: arquivo corrompido
+  # ZIP acima dos limites contra bomba de ZIP.
+  zip_grande: arquivo compactado grande demais para abrir
+  # Arquivo em que nenhuma página tem texto.
+  em_branco: todas as páginas estão em branco
+  # Arquivo que derrubou a leitura duas vezes (tempo esgotado ou erro).
+  falha_na_leitura: não foi possível ler este arquivo

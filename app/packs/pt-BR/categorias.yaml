@@ -1,0 +1,396 @@
+# Categorias do documento. Lido por
+# scan_to_text.entender.classificar.
+#
+# Os termos são comparados como palavras inteiras, sem acento, sem caixa, com
+# hífen e travessão trocados por espaço e espaços repetidos colapsados; cada
+# termo aceita o plural em "s" ou "es" (plural irregular vai escrito).
+#
+# A ordem de decisão:
+#   1. exclusoes_titulo, em qualquer posição do título achado pela
+#      segmentação; nas outras linhas de título e de seção da 1ª página, em
+#      qualquer posição quando o título não casa com nenhuma regra, e só
+#      abrindo a linha quando casa ("DADOS DA SOLICITAÇÃO" é um quadro do
+#      resultado; "SOLICITAÇÃO DE PET-CT" é o documento);
+#   2. exclusoes_texto sem `tira_de`, em todo o texto do documento;
+#   3. regras, primeiro no título achado pela segmentação, depois nas linhas
+#      de título e de seção da 1ª página; dentro de cada uma, a primeira regra
+#      da lista que casa vence;
+#   4. estrutura, em todo o texto;
+#   5. na dúvida, 5;
+#   6. exclusoes_texto com `tira_de`, em todo o texto: mandam para 5 só o
+#      documento que caiu numa das categorias listadas.
+# A linha igual à instituição do documento nunca conta como título.
+
+# Não são resultado: pedido, solicitação, requisição, guia e autorização vão
+# para 5 mesmo com nome de exame no título.
+exclusoes_titulo:
+  - id: guia
+    termos: [guia, tiss, sp/sadt, sadt, apac, aih]
+  - id: pedido
+    termos: [pedido, solicitação, solicitações, requisição, requisições]
+  - id: autorizacao
+    termos: [autorização, autorizações]
+
+# No corpo, só marcas fortes: "Guia: 123", "Nº do pedido" e "Médico
+# solicitante" aparecem no cabeçalho de resultado e não bastam.
+exclusoes_texto:
+  - id: guia
+    termos:
+      - sp/sadt
+      - tiss
+      - registro ans
+      - guia de serviço profissional
+      - serviço auxiliar de diagnóstico e terapia
+      - número da guia no prestador
+      - guia de consulta
+      - guia de solicitação
+      - guia de internação
+      - guia de honorários
+      - apac
+      - autorização de procedimento ambulatorial
+      - laudo para solicitação
+  - id: pedido
+    termos:
+      - pedido de exame
+      - solicitação de exame
+      - solicitações de exame
+      - requisição de exame
+      - requisições de exame
+      - solicito a realização
+      - solicito realização
+      - favor realizar
+  # O verbo de quem pede, no pedido em formato de receituário ("Solicito:",
+  # "Peço a realização de"). Encaminhamento e parecer também o usam
+  # ("solicito avaliação") e não são resultado: por isso a marca só tira das
+  # categorias de resultado. "Solicitante" e "solicitado" não casam.
+  - id: pedido_receituario
+    tira_de: [2, 3, 4]
+    termos:
+      - solicito
+      - solicitamos
+      - peço
+
+regras:
+  - id: outros
+    categoria: 5
+    termos:
+      - ecocardiograma
+      - ecocardiografia
+      - ecodopplercardiograma
+      - ecodopplercardiografia
+      - eletrocardiograma
+      - ecg
+      - holter
+      - mapa
+      - teste ergométrico
+      - teste de esforço
+      - ergometria
+      - espirometria
+      - prova de função pulmonar
+      - eletroneuromiografia
+      - enmg
+      - eletroencefalograma
+      - eeg
+      - polissonografia
+      - audiometria
+      - receita
+      - receituário
+      - prescrição
+      - atestado
+      - declaração
+      - termo de consentimento
+      - consentimento informado
+      - tcle
+      - orçamento
+  # vem antes dos exames: "descrição cirúrgica - biópsia" é o relato do
+  # cirurgião, não o anatomopatológico. Só expressões de documento: o nome
+  # da modalidade solto fica em tratamento_oncologico, depois dos exames.
+  - id: tratamento_anterior
+    categoria: 1
+    termos:
+      - resumo de tratamento
+      - descrição cirúrgica
+      - descrição da cirurgia
+      - descrição do procedimento cirúrgico
+      - relatório cirúrgico
+      - relatório de cirurgia
+      - nota operatória
+      - sumário de alta
+      - resumo de alta
+      - relatório de alta
+      - alta hospitalar
+      - sumário de internação
+  # vem antes dos exames: "encaminhamento para tomografia" não é resultado
+  - id: relatorio
+    categoria: 1
+    termos:
+      - relatório médico
+      - encaminhamento
+      - contrarreferência
+      - contra referência
+      - carta
+      - parecer
+      - laudo médico
+      - resumo clínico
+  # O nome do laudo do patologista vem antes da endoscopia: "anatomopatológico
+  # de biópsia por colonoscopia" é anatomopatológico. "Patologia" solta não
+  # entra: "patologia clínica" é o laboratório de análises clínicas.
+  - id: anatomopatologico
+    categoria: 4
+    termos:
+      - anatomopatológico
+      - anatomia patológica
+      - patologia cirúrgica
+      - histopatológico
+      - histopatologia
+      - exame histológico
+      - citologia
+      - citológico
+      - citopatológico
+      - citopatologia
+      - colpocitologia
+      - colpocitológico
+      - papanicolau
+      - papanicolaou
+      - imuno-histoquímica
+      - imuno-histoquímico
+      - imunohistoquímica
+      - imunohistoquímico
+      - ihq
+      - imunocitoquímica
+      - revisão de lâminas
+  - id: genetica
+    categoria: 4
+    termos:
+      - fish
+      - hibridização in situ
+      - painel genético
+      - painel de genes
+      - ngs
+      - sequenciamento
+      - brca
+      - brca1
+      - brca2
+      - teste molecular
+      - patologia molecular
+      - biologia molecular
+      - análise molecular
+      - mutação
+      - mutações
+      - análise mutacional
+      - egfr
+      - kras
+      - nras
+      - braf
+      - alk
+      - ros1
+      - pd-l1
+      - msi
+      - instabilidade de microssatélites
+      - oncotype
+      - mammaprint
+      - genética
+      - genético
+      - oncogenética
+      - cariótipo
+      - teste genético
+  # Antes da biópsia: "colonoscopia com biópsia" é o laudo do endoscopista.
+  - id: endoscopia
+    categoria: 2
+    termos:
+      - endoscopia
+      - endoscopia digestiva
+      - eda
+      - colonoscopia
+      - retossigmoidoscopia
+      - videoendoscopia
+      - videocolonoscopia
+  # O material sem o nome do laudo: anatomopatológico quando nenhum exame acima
+  # casou.
+  - id: biopsia
+    categoria: 4
+    termos:
+      - biópsia
+      - peça cirúrgica
+      - paaf
+      - punção aspirativa
+      - congelação
+  - id: imagem
+    categoria: 2
+    termos:
+      - radiografia
+      - raio x
+      - raios x
+      - rx
+      - tomografia
+      - tomografia computadorizada
+      - tc
+      - angiotomografia
+      - ressonância
+      - ressonância magnética
+      - rm
+      - rnm
+      - angiorressonância
+      - ultrassonografia
+      - ultrassonográfico
+      - ultrassom
+      - ultra som
+      - ultrasonografia
+      - usg
+      - us
+      - ecografia
+      - ecográfico
+      - doppler
+      - ecodoppler
+      - duplex scan
+      - mamografia
+      - tomossíntese
+      - densitometria
+      - cintilografia
+      - medicina nuclear
+      - pet
+      - pet-ct
+      - pet-tc
+      - pet/ct
+      - pet/tc
+      - psma
+      - pet-psma
+      - elastografia
+      - angiografia
+      - arteriografia
+      - urografia
+      - histerossalpingografia
+      - escore de cálcio
+  - id: laboratorio
+    categoria: 3
+    termos:
+      - hemograma
+      - eritrograma
+      - leucograma
+      - plaquetas
+      - bioquímica
+      - glicose
+      - glicemia
+      - hemoglobina glicada
+      - creatinina
+      - ureia
+      - uréia
+      - colesterol
+      - triglicérides
+      - triglicerídeos
+      - lipidograma
+      - perfil lipídico
+      - tgo
+      - tgp
+      - transaminases
+      - bilirrubina
+      - fosfatase alcalina
+      - gama gt
+      - ggt
+      - ferritina
+      - ferro sérico
+      - vitamina
+      - ácido úrico
+      - eletrólitos
+      - sódio
+      - potássio
+      - cálcio
+      - magnésio
+      - psa
+      - antígeno prostático específico
+      - cea
+      - antígeno carcinoembrionário
+      - ca 125
+      - ca125
+      - ca 15-3
+      - ca 15.3
+      - ca 19-9
+      - ca 19.9
+      - ca 72-4
+      - alfafetoproteína
+      - afp
+      - beta hcg
+      - marcador tumoral
+      - marcadores tumorais
+      - sorologia
+      - hiv
+      - hepatite
+      - hbsag
+      - anti hcv
+      - vdrl
+      - sífilis
+      - toxoplasmose
+      - urina
+      - eas
+      - urocultura
+      - cultura
+      - antibiograma
+      - coagulograma
+      - tap
+      - ttpa
+      - tempo de protrombina
+      - inr
+      - fibrinogênio
+      - d-dímero
+      - hormônio
+      - tsh
+      - t4 livre
+      - t3
+      - testosterona
+      - estradiol
+      - fsh
+      - lh
+      - prolactina
+      - cortisol
+      - insulina
+      - pth
+      - gasometria
+      - proteína c reativa
+      - vhs
+      - albumina
+      - proteínas totais
+      - eletroforese
+      - exame laboratorial
+      - exames laboratoriais
+      - análises clínicas
+      - laboratório clínico
+      - patologia clínica
+      - parasitológico
+      - fezes
+      - sangue oculto
+  # depois dos exames: "tomografia para planejamento de radioterapia" e
+  # "hemograma pré-quimioterapia" são exames
+  - id: tratamento_oncologico
+    categoria: 1
+    termos:
+      - radioterapia
+      - radioterápico
+      - radioterápica
+      - braquiterapia
+      - quimioterapia
+      - quimioterápico
+      - quimioterápica
+      - hormonioterapia
+      - imunoterapia
+  # depois dos exames: "relatório de ultrassonografia" é laudo de imagem
+  - id: relatorio_generico
+    categoria: 1
+    termos:
+      - relatório
+      - histórico
+      - evolução
+      - anamnese
+
+# Estrutura, em todo o texto, quando nenhum título decidiu: cada grupo de
+# `todos` precisa de pelo menos um termo presente.
+estrutura:
+  - id: anatomopatologico_estrutura
+    categoria: 4
+    todos:
+      - [macroscopia, macroscópico, exame macroscópico, descrição macroscópica]
+      - [microscopia, microscópico, exame microscópico, descrição microscópica]
+  - id: laboratorio_estrutura
+    categoria: 3
+    todos:
+      - [valores de referência, valor de referência, intervalo de referência, faixa de referência, vr]
+      - [material, método, amostra]

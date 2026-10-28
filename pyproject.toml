@@ -1,0 +1,11 @@
+[project]
+name = "scan-to-text"
+version = "1.0.0"
+description = "Literal transcription of scanned documents to Markdown, organized by patient."
+requires-python = ">=3.14"
+license = "Apache-2.0"
+
+[tool.pytest.ini_options]
+pythonpath = ["app", "tools", "tests"]
+testpaths = ["tests"]
+markers = ["modelos: usa os modelos de OCR e leva segundos por teste"]

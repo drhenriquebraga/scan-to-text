@@ -1,0 +1,145 @@
+# Regras de página usadas pela segmentação (entender/segmentar.py).
+#
+# Os padrões são expressões regulares aplicadas ao texto já dobrado:
+# minúsculas e sem acento. Por isso não levam acento nem maiúscula.
+# Os rótulos ficam na forma natural; o código os dobra antes de comparar.
+
+# Numeração impressa da página ("Página X de Y", "Pág. X/Y", "X/Y", "Folha X").
+# Grupos nomeados: x (esta página) e y (total, opcional). A ordem da lista é a
+# ordem de preferência. Com `so_margem`, o padrão só vale no cabeçalho, no
+# rodapé ou nas faixas do topo e do pé: solto no meio do texto é ambíguo.
+numeracao:
+  - padrao: '\bpag(?:ina|\.)?\s*:?\s*(?P<x>\d{1,3})\s*(?:de|/)\s*(?P<y>\d{1,3})\b'
+    so_margem: false
+  - padrao: '\bfolha\s*:?\s*(?P<x>\d{1,3})\s*(?:de|/)\s*(?P<y>\d{1,3})\b'
+    so_margem: false
+  # Sem total. O "(?!...)" impede que um "5 de 3" incoerente, já recusado
+  # acima, volte aqui lido como "5".
+  - padrao: '\bpag(?:ina|\.)?\s*:?\s*(?P<x>\d{1,3})\b(?!\s*(?:de|/)\s*\d)'
+    so_margem: true
+  - padrao: '\bfolha\s*:?\s*(?P<x>\d{1,3})\b(?!\s*(?:de|/)\s*\d)'
+    so_margem: true
+  - padrao: '^\s*(?P<x>\d{1,3})\s*/\s*(?P<y>\d{1,3})\s*$'
+    so_margem: true
+
+# Rótulos de campo de formulário. Linha que começa com um deles não é
+# instituição nem título.
+# `campos` só contam com dois-pontos logo adiante (até 25 caracteres de
+# complemento, como em "Data da coleta:"), porque "Unidade de Oncologia" ou
+# "Plano de Saúde Exemplo" podem ser timbre.
+campos:
+  - Paciente
+  - Nome
+  - Data
+  - Dt
+  - Idade
+  - Sexo
+  - Médico
+  - Médica
+  - Solicitante
+  - Requisitante
+  - Convênio
+  - Plano
+  - Carteira
+  - Matrícula
+  - Prontuário
+  - Registro
+  - Atendimento
+  - Pedido
+  - Protocolo
+  - Ordem de serviço
+  - Material
+  - Coleta
+  - Recebido
+  - Recebimento
+  - Liberado
+  - Liberação
+  - Emissão
+  - Impresso
+  - Impressão
+  - Leito
+  - Quarto
+  - Setor
+  - Unidade
+  - Origem
+  - Código
+  - Guia
+  - Senha
+  - Beneficiário
+  - Cliente
+  - CPF
+  - RG
+  - CNPJ
+  - CRM
+  - Telefone
+  - Tel
+  - Fone
+  - Endereço
+
+# Cara de timbre. O layout às vezes marca o nome da instituição, no topo, como
+# seção do corpo, igual ao título do exame. Entre as linhas de título, a que
+# tem uma destas marcas perde para a que não tem; sozinha, continua título.
+# `abre`: palavra que abre a linha. `contem`: em qualquer posição.
+instituicao:
+  abre:
+    - Laboratório
+    - Clínica
+    - Policlínica
+    - Hospital
+    - Instituto
+    - Centro
+    - Fundação
+    - Santa Casa
+    - Associação
+    - Irmandade
+  contem:
+    - Laboratório
+    - Análises Clínicas
+    - Medicina Diagnóstica
+    - Ltda
+    - S/A
+    - S.A.
+    - EIRELI
+  # Linha de endereço ou contato: a palavra abre a linha, ou vem depois de
+  # " - " numa linha que não é campo ("Paciente: ... - Rua" é do paciente). A
+  # linha do cabeçalho logo acima dela é timbre: título de exame não vem
+  # seguido do endereço da instituição.
+  endereco:
+    - Rua
+    - Avenida
+    - Av.
+    - Alameda
+    - Rodovia
+    - Praça
+    - Travessa
+    - Estrada
+    - Tel.
+    - Tel
+    - Telefone
+    - Fone
+    - Fax
+    - CEP
+    - CNPJ
+    - CNES
+    - WhatsApp
+    - www
+    - E-mail
+
+# Rótulos que marcam campo mesmo sem os dois-pontos, que o OCR perde.
+campos_fortes:
+  - Paciente
+  - Pcte
+  - Pac
+  - Nome
+  - Idade
+  - Sexo
+  - Nascimento
+  - Nasc
+  - DN
+  - Data de nascimento
+  - Beneficiário
+  - Prontuário
+  - Convênio
+  - CPF
+  - RG
+  - CRM

@@ -1,0 +1,44 @@
+# Manifesto de PERMITIDOS da cópia pública do Scan-to-Text.
+#
+# Uma entrada por linha, com o caminho relativo à raiz do projeto: terminada
+# em / é a pasta inteira; sem / é o arquivo exato. Só entra arquivo do
+# último commit, e o que não casa com nenhuma linha não vai. Fica na oficina tudo o
+# que não está aqui: CLAUDE.md, AGENTS.md, CONTEXT.md, PRODUCT.md, o
+# README.md da oficina, docs/ e qualquer plano, relatório ou pesquisa.
+#
+# O que mora em publico/ vai para a RAIZ da cópia: o README em inglês,
+# LICENSE, NOTICE, THIRD_PARTY.md e SECURITY.md.
+
+# o app
+app/scan_to_text/
+app/packs/
+
+# os testes e as ferramentas que eles importam
+tests/
+tools/checar_licencas.py
+tools/checar_literais.py
+tools/checar_paciente.py
+tools/checar_rede.py
+tools/avaliar.py
+tools/gerar_corpus.py
+tools/rodar_corpus.py
+tools/corpus/
+.githooks/pre-commit
+
+# montagem, instalação e publicação
+packager/baixar.py
+packager/catalogo.json
+packager/montar_pacote.py
+packager/publicar.py
+packager/permitidos.txt
+packager/INSTALL.cmd
+packager/LEIA-ME.txt
+tools/montar_kit.py
+diagnostico/TESTAR.cmd
+pyproject.toml
+requirements.txt
+requirements-dev.txt
+
+# o piso de todo repositório público
+.gitattributes
+.gitignore

@@ -1,0 +1,70 @@
+/* A espera da tela inicial e a linha de conexão com o motor local.
+
+   Receitas matrix-dot-loader e shimmer-text do Transitions.dev, as mesmas de
+   efeitos.css e efeitos.js, numa versão mais lenta e mais apagada para a
+   espera; crédito em Configurações > Referências e no NOTICE. Carrega depois
+   de efeitos.css e de identidade-local-suite.css: usa os keyframes de lá e
+   sobrescreve a matriz.
+
+   O brilho corre sobre o próprio texto (`background-clip:text`), sem
+   duplicar a frase num pseudoelemento. O ponto da conexão não pulsa: só muda
+   de cor quando a resposta muda. */
+.stt-espera-matriz{
+ --matrix-cycle:2400ms;
+ --matrix-ponto:3px;
+ --matrix-vao:2px;
+ --matrix-base:#29374d;
+ --matrix-active:#7da4f8;
+}
+.stt-espera-matriz i{position:relative;animation:none;background:var(--matrix-base)}
+.stt-espera-matriz i::after{
+ content:"";position:absolute;inset:0;border-radius:inherit;
+ background:var(--matrix-active);opacity:.12;
+ animation:stt-espera-ponto var(--matrix-cycle) var(--matrix-ease) infinite;
+ animation-delay:calc(var(--d,0) * 1ms);
+}
+@keyframes stt-espera-ponto{0%,45%,100%{opacity:.12}15%{opacity:.8}}
+/* Na espera, a matriz ocupa o lugar do ponto verde. */
+.estado-linha[data-stt-ocioso="true"] #calmo{display:none !important}
+.stt-espera-matriz[data-ativo="false"] i::after{animation-play-state:paused}
+#estado-texto.stt-espera-texto{
+ --shimmer-dur:4800ms;
+ --shimmer-highlight:#dce8ff;
+ position:relative;display:inline-block;
+ background-image:linear-gradient(90deg,var(--text-muted) 0%,var(--text-muted) 40%,
+  var(--shimmer-highlight) 50%,var(--text-muted) 60%,var(--text-muted) 100%);
+ background-size:var(--shimmer-band,400%) 100%;background-repeat:no-repeat;
+ -webkit-background-clip:text;background-clip:text;color:transparent;
+ -webkit-text-fill-color:transparent;
+ animation:t-shimmer var(--shimmer-dur) var(--shimmer-ease,linear) infinite;
+}
+.stt-conexao{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+ gap:7px;margin-block-start:0;color:var(--text-dim);font-size:12px;line-height:1.5;
+ font-variant-numeric:tabular-nums}
+.stt-conexao-ponto{display:inline-block;inline-size:6px;block-size:6px;flex:0 0 auto;
+ border-radius:50%;background:var(--text-dim)}
+.stt-conexao[data-conexao="ativa"] .stt-conexao-ponto{background:var(--success)}
+.stt-conexao[data-conexao="lenta"] .stt-conexao-ponto,
+.stt-conexao[data-conexao="instavel"] .stt-conexao-ponto{background:var(--aviso)}
+.stt-conexao[data-conexao="inativa"] .stt-conexao-ponto{background:var(--perigo)}
+.stt-conexao-metrica{min-inline-size:46px;color:var(--text-dim)}
+.stt-conexao[data-conexao="inativa"] .stt-conexao-metrica{min-inline-size:0}
+/* A linha de conexão soma 28 px à home. Na janela baixa, o topo cede a mesma
+   altura: na janela mínima (720x560), o aviso da pausa continua inteiro. */
+@media (max-height:620px){
+ .vista-inicio{padding-block-start:clamp(28px,10vh,150px)}
+}
+/* Aba oculta: os efeitos param junto com a consulta, que fica mais espaçada. */
+html[data-stt-oculto="true"] .stt-espera-matriz i::after,
+html[data-stt-oculto="true"] #estado-texto.stt-espera-texto{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){
+ .stt-espera-matriz i::after{animation:none;opacity:.18}
+ .stt-espera-matriz i:nth-child(4n+1)::after{opacity:.7}
+ #estado-texto.stt-espera-texto{animation:none;background:none;color:var(--text-muted);
+  -webkit-text-fill-color:var(--text-muted)}
+}
+/* Alto contraste do Windows tira o fundo: sem ele, o texto transparente sumiria. */
+@media (forced-colors:active){
+ #estado-texto.stt-espera-texto{animation:none;background:none;color:CanvasText;
+  -webkit-text-fill-color:CanvasText}
+}

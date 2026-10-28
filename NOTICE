@@ -1,0 +1,107 @@
+Scan-to-Text
+Copyright 2026 Henrique Faria Braga
+
+This product is part of Braga HealthLab. It is published and distributed
+through radioterapia.ai (https://radioterapia.ai), among other channels.
+
+================================================================================
+ WHAT THIS PROJECT IS, AND WHAT IT IS NOT
+================================================================================
+
+Scan-to-Text is a FILING AND TRANSCRIPTION LAYER. What we built is the pipeline
+that watches a scanner folder, splits what arrives into documents, finds whose
+document each one is, and writes a literal transcription into the right
+folder - not the models that recognise the text.
+
+Layout analysis and table structure are performed by Docling (IBM Research and
+the Docling project). Character recognition is performed by RapidOCR running
+PaddleOCR models. Both are third-party components. We are not their authors and
+claim no authorship over them.
+
+What is ours: the folder watcher, the locks between workstations, the reading
+rules that work on text ALREADY recognised (patient labels, dates and their
+roles, document categories, page segmentation, the cleaning of page furniture),
+the output tree, the manifest, and the safety rails around patient data.
+
+================================================================================
+ THIRD-PARTY COMPONENTS
+================================================================================
+
+The release package bundles the components below. The complete list of the
+Python packages, each pinned by version and SHA-256, is in
+packager/catalogo.json and in THIRD_PARTY.md; the package itself carries
+AVISOS-DE-TERCEIROS.txt with the licence texts that must travel with it.
+
+  Python 3.14 (embeddable package) - PSF License 2.0
+    Copyright Python Software Foundation
+
+  Docling, docling-core, docling-parse, docling-ibm-models - MIT
+    Copyright IBM Corp. and the Docling project contributors
+  Docling layout model (docling-layout-heron) - Apache-2.0
+  TableFormer models (docling-models) - CDLA-Permissive-2.0
+
+  RapidOCR - Apache-2.0
+    Copyright RapidAI
+  PaddleOCR models (PP-OCRv6 detection and recognition, text-line
+  orientation classifier) - Apache-2.0
+    Copyright PaddlePaddle Authors
+
+  ONNX Runtime - MIT
+    Copyright Microsoft Corporation
+  PyTorch and torchvision - BSD-3-Clause
+    Copyright Meta Platforms, Inc. and affiliates and contributors
+
+  pypdfium2 - Apache-2.0 or BSD-3-Clause
+  PDFium - BSD-3-Clause and Apache-2.0
+    Copyright The PDFium Authors
+  pi-heif - BSD-3-Clause; its binary wheel bundles libheif and libde265
+    under LGPL-3.0, as separate dynamic libraries that can be replaced
+    (sources: github.com/strukturag/libheif and github.com/strukturag/libde265)
+  Pillow - MIT-CMU
+  RapidFuzz - MIT
+  PyYAML - MIT
+  psutil - BSD-3-Clause
+
+  pywebview - BSD-3-Clause
+  pythonnet and clr-loader - MIT
+  FastAPI - MIT; Starlette and uvicorn - BSD-3-Clause
+
+  Transitions.dev: matrix-dot-loader and shimmer-text (adapted)
+    Used under the Transitions.dev terms, which allow use inside products,
+    including commercial ones, with credit; they forbid republishing the
+    collection as a library.
+
+  Language selector and flags, ported from local-suite (Radioterapia.AI),
+    Apache-2.0.
+
+Microsoft components (in the release package only, never in this repository)
+--------------------------------------------------------------------------------
+  Microsoft Edge WebView2 Runtime, Fixed Version (x64)
+    Distributed unmodified, only together with Scan-to-Text, under the
+    Microsoft WebView2 Runtime licence terms. It contains AVC/H.264 codec
+    technology; the MPEG LA notice travels in AVISOS-DE-TERCEIROS.txt.
+
+  Microsoft Visual C++ runtime (when present in the package)
+    Taken from the VC\Redist folder of a Visual Studio installation and
+    distributed unmodified, only together with Scan-to-Text, as Distributable
+    Code under the Visual Studio licence terms.
+
+Only in tests (not distributed in the package)
+--------------------------------------------------------------------------------
+  pytest - MIT
+  ReportLab - BSD-3-Clause
+
+================================================================================
+ NOTICE
+================================================================================
+
+Support tool. Not validated for clinical use.
+
+Scan-to-Text transcribes documents literally. It does not summarise, interpret,
+compute or diagnose, and it is not a medical device. Optical character
+recognition makes mistakes, and the dangerous ones are plausible numbers. The
+scanned original, kept next to every transcription, is the source of truth.
+
+This repository is published as educational material. Whoever downloads,
+modifies and deploys it answers for their own build and for its validation in
+their own service.

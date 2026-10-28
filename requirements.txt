@@ -1,0 +1,12 @@
+docling[rapidocr]==2.130.0
+rapidocr==3.9.2
+onnxruntime==1.30.0
+pywebview==6.2.1
+pypdfium2==5.13.0
+pi-heif==1.4.0
+rapidfuzz==3.14.6
+PyYAML==6.0.3
+psutil==7.2.2
+pillow==12.3.0
+fastapi==0.141.1
+uvicorn==0.54.0

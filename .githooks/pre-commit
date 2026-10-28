@@ -1,0 +1,29 @@
+#!/bin/sh
+# pre-commit: recusa o commit que leva dado de paciente.
+# Roda so a varredura do stage (tools/checar_paciente.py --stage), sobre o
+# conteudo do stage, e nao o do disco.
+# Ligar, uma vez por clone:  git config core.hooksPath .githooks
+# Na duvida, recusa: sem um Python 3 que responda, o commit nao passa.
+# Adaptado do .githooks/pre-commit do local-suite (Apache-2.0).
+
+raiz=$(git rev-parse --show-toplevel) || exit 1
+varredura="$raiz/tools/checar_paciente.py"
+teste='import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)'
+
+for c in "$raiz/.venv/Scripts/python.exe" "$raiz/.venv/bin/python"; do
+  if [ -x "$c" ] && "$c" -c "$teste" >/dev/null 2>&1; then
+    exec "$c" "$varredura" --stage
+  fi
+done
+if command -v py >/dev/null 2>&1 && py -3 -c "$teste" >/dev/null 2>&1; then
+  exec py -3 "$varredura" --stage
+fi
+for c in python python3; do
+  if command -v "$c" >/dev/null 2>&1 && "$c" -c "$teste" >/dev/null 2>&1; then
+    exec "$c" "$varredura" --stage
+  fi
+done
+
+echo "pre-commit: nenhum Python 3 respondeu (.venv, py -3, python, python3)." >&2
+echo "O commit foi RECUSADO porque a checagem de dado de paciente nao rodou." >&2
+exit 1

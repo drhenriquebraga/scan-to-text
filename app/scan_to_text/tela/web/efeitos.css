@@ -1,0 +1,63 @@
+/* Os dois efeitos da tela inicial, do Transitions.dev.
+
+   Receitas da parte gratuita do Transitions.dev (repositório público
+   github.com/Jakubantalik/transitions.dev: transitions/matrix-dot-loader e
+   transitions/shimmer-text). Os termos permitem usar e modificar dentro de um
+   produto e proíbem só republicar a coleção como biblioteca. O crédito fica
+   em Configurações > Referências e no NOTICE.
+
+   Adaptações: as cores saem das fichas desta tela, os pontos da matriz têm
+   4 px (2 px some ao lado de texto de 15 px) e o brilho corre sobre o cinza
+   do texto secundário. A construção é a do original. */
+
+:root{
+ --matrix-cycle:1200ms;
+ --matrix-base:var(--line-strong,#2a3a55);
+ --matrix-active:var(--accent,#4DA3FF);
+ --matrix-ease:ease-in-out;
+ --matrix-ponto:4px;
+ --matrix-vao:2px;
+ --shimmer-dur:2000ms;
+ --shimmer-base:var(--text-muted,#a3b1c6);
+ --shimmer-highlight:#ffffff;
+ --shimmer-band:400%;
+ --shimmer-ease:linear;
+}
+
+/* ── Matrix dot loader ──
+   Dezesseis pontos (efeitos.js os cria) num ciclo de cor compartilhado; cada
+   um entra com um atraso `--d` em ms, e a variante é só a tabela de atrasos. */
+.t-matrix{display:grid;grid-template-columns:repeat(4,var(--matrix-ponto));
+ grid-auto-rows:var(--matrix-ponto);gap:var(--matrix-vao);flex:0 0 auto}
+.t-matrix i{display:block;border-radius:1px;background:var(--matrix-base);
+ animation:t-matrix-pulse var(--matrix-cycle) var(--matrix-ease) infinite;
+ animation-delay:calc(var(--d, 0) * 1ms)}
+@keyframes t-matrix-pulse{
+ 0%,45%,100%{background-color:var(--matrix-base)}
+ 15%{background-color:var(--matrix-active)}
+}
+
+/* ── Shimmer text ──
+   Duas camadas: o texto normal na cor de base, e o `::before` que duplica o
+   texto por `attr(data-text)`, pinta uma faixa clara e a recorta nas letras
+   com `background-clip:text`. O JS mantém `data-text` igual ao texto. */
+.t-shimmer{position:relative;display:inline-block;color:var(--shimmer-base)}
+.t-shimmer::before{content:attr(data-text);position:absolute;inset:0;pointer-events:none;
+ background-image:linear-gradient(90deg,transparent 0%,transparent 40%,
+  var(--shimmer-highlight) 50%,transparent 60%,transparent 100%);
+ background-size:var(--shimmer-band) 100%;background-repeat:no-repeat;
+ -webkit-background-clip:text;background-clip:text;color:transparent;
+ -webkit-text-fill-color:transparent;
+ animation:t-shimmer var(--shimmer-dur) var(--shimmer-ease) infinite}
+@keyframes t-shimmer{
+ 0%{background-position:100% 0}
+ 100%{background-position:0% 0}
+}
+
+/* Quem pede menos movimento continua vendo o estado: a matriz fica parada e
+   o texto continua legível; só a chamada de atenção sai. */
+@media (prefers-reduced-motion:reduce){
+ .t-matrix i{animation:none !important}
+ .t-matrix i:nth-child(4n+1){background:var(--matrix-active)}
+ .t-shimmer::before{animation:none !important}
+}

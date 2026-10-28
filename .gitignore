@@ -1,0 +1,8 @@
+.venv/
+_montagem/
+__pycache__/
+*.pyc
+.pytest_cache/
+tests/corpus/
+resultados/
+.impeccable/
