@@ -7,7 +7,7 @@
 > ones are plausible numbers. The scanned original, kept next to every
 > transcription, is the source of truth. See [NOTICE](NOTICE).
 
-**Private evaluation build.** The clinical pilot is pending. Read the
+**Public evaluation build.** The clinical pilot is pending. Read the
 [release notes](https://github.com/drhenriquebraga/scan-to-text/releases) for
 measured coverage and known limitations.
 
@@ -191,17 +191,19 @@ that is lost rewrites identical bytes.
 
 ## Install
 
-**Requirements:** Windows 10 or 11, 64-bit, including LTSB 2016 and LTSC. About
-4 GB of free disk space, and 8 GB of RAM recommended (reading uses up to 2 GB
-while it works, and gives it back when idle). No administrator rights and no
+**Requirements:** Windows 10 or 11, 64-bit. LTSB 2016 and LTSC checks are
+pending the workstation pilot. Allow 8 GB of free disk space for the download,
+extracted files and installation, with 8 GB of RAM recommended. The packaged
+self-test measured a process peak of 2,594 MiB on the development workstation.
+No administrator rights and no
 internet are needed. The app must run from a local disk, not a network share.
 
 1. Download `SCAN_TO_TEXT_LATEST.zip` from the
    [Releases](https://github.com/drhenriquebraga/scan-to-text/releases) page.
-   Permanent link to the latest version:
+   Direct link to evaluation version 1.0.0:
 
    ```
-   https://github.com/drhenriquebraga/scan-to-text/releases/latest/download/SCAN_TO_TEXT_LATEST.zip
+   https://github.com/drhenriquebraga/scan-to-text/releases/download/v1.0.0/SCAN_TO_TEXT_LATEST.zip
    ```
 
 2. Right-click the zip and choose **Extract All**. Running the installer from
@@ -233,7 +235,7 @@ certutil -hashfile SCAN_TO_TEXT_LATEST.zip SHA256
 
 The package carries everything it needs — Python, the models, the window
 engine (WebView2) — so it works on a machine that has never been online. That
-is why it is large: about 1.2 GB, almost all of it models and runtime.
+is why the download is 1.44 GiB, almost all of it models and runtime.
 
 **Update:** close the app and repeat steps 2 and 3 with the new zip. The
 settings (`config.json`) and the destination folders are never touched.
